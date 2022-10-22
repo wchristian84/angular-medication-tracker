@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MedicationsService } from 'src/app/medications/medications.service';
 
 @Component({
   selector: 'app-friday',
@@ -11,7 +12,7 @@ export class FridayComponent implements OnInit {
   fridayEvening = [];
   fridayNight = [];
 
-  constructor() { }
+  constructor(private medicationsService: MedicationsService) { }
 
   ngOnInit(): void {
   }
