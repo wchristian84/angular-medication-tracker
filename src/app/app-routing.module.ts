@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EditMedComponent } from './medications/edit-med/edit-med.component';
+import { AddMedComponent } from './medications/add-med/add-med.component';
 
 import { CurrentMedsComponent } from './medications/current-meds/current-meds.component';
 import { MedicationsComponent } from './medications/medications.component';
@@ -16,10 +18,14 @@ import { WednesdayComponent } from './schedule/wednesday/wednesday.component';
 const routes: Routes = [
   {path: '', redirectTo: '/current-meds', pathMatch: 'full'},
   {path: 'current-meds', component: CurrentMedsComponent, children: [
-    {path: ':index', component: MedicationsComponent}
+    {path: 'add', component: AddMedComponent, pathMatch: 'full'},
+    {path: ':index', component: MedicationsComponent},
+    {path: ':index/edit', component: EditMedComponent}
   ]},
   {path: 'past-meds', component: PastMedsComponent, children: [
-    {path: ':index', component: MedicationsComponent}
+    {path: 'add', component: AddMedComponent, pathMatch: 'full'},
+    {path: ':index', component: MedicationsComponent},
+    {path: ':index/edit', component: EditMedComponent}
   ]},
   {path: 'schedule', component: ScheduleComponent, children:[
     {path: 'monday', component: MondayComponent},
