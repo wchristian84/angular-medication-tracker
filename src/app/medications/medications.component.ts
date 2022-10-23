@@ -28,7 +28,6 @@ export class MedicationsComponent implements OnInit{
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) =>
       {this.idx = +params['index'];
-      console.log('url: ', this.route.pathFromRoot.toString());
       if (this.route.pathFromRoot.toString().includes('current-meds')) {
         this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
       } else {
