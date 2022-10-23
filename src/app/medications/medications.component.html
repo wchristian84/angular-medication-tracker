@@ -1,1 +1,13 @@
-<p>medications works!</p>
+<div>
+  <div *ngIf="idx >= 0; else elseBlock"  class="border border-primary rounded px-3 py-2">
+    <p class="h3">Medication Name: {{ selectedMedication.name }}</p>
+    <div class="row"><p class="h6 col-md-2">Dosage: </p><p class="col-md-6">{{ selectedMedication.dosage }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Frequency: </p><p class="col-md-6">{{ selectedMedication.frequency }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Benefits: </p><p class="col-md-6">{{ selectedMedication.benefits }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Side Effects: </p><p class="col-md-6">{{ selectedMedication.sideEffects }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Medication Started: </p><p class="col-md-6">{{ selectedMedication.startDate }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Medication Stopped: </p><p class="col-md-6">{{ selectedMedication.stopDate }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Reason for Stopping: </p><p class="col-md-6">{{ selectedMedication.reasonStopped }}</p></div><hr>
+  </div>
+  <ng-template #elseBlock><h4>Please select a medication for more details.</h4></ng-template>
+</div>
