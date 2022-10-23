@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,8 @@ import { ThursdayComponent } from './schedule/thursday/thursday.component';
 import { FridayComponent } from './schedule/friday/friday.component';
 import { SaturdayComponent } from './schedule/saturday/saturday.component';
 import { SundayComponent } from './schedule/sunday/sunday.component';
+import { EditMedComponent } from './medications/edit-med/edit-med.component';
+import { AddMedComponent } from './medications/add-med/add-med.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +31,15 @@ import { SundayComponent } from './schedule/sunday/sunday.component';
     ThursdayComponent,
     FridayComponent,
     SaturdayComponent,
-    SundayComponent
+    SundayComponent,
+    EditMedComponent,
+    AddMedComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
