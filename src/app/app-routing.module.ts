@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CurrentMedsComponent } from './medications/current-meds/current-meds.component';
+import { MedicationsComponent } from './medications/medications.component';
 import { PastMedsComponent } from './medications/past-meds/past-meds.component';
 import { FridayComponent } from './schedule/friday/friday.component';
 import { MondayComponent } from './schedule/monday/monday.component';
@@ -14,8 +15,12 @@ import { WednesdayComponent } from './schedule/wednesday/wednesday.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/current-meds', pathMatch: 'full'},
-  {path: 'current-meds', component: CurrentMedsComponent},
-  {path: 'past-meds', component: PastMedsComponent},
+  {path: 'current-meds', component: CurrentMedsComponent, children: [
+    {path: ':index', component: MedicationsComponent}
+  ]},
+  {path: 'past-meds', component: PastMedsComponent, children: [
+    {path: ':index', component: MedicationsComponent}
+  ]},
   {path: 'schedule', component: ScheduleComponent, children:[
     {path: 'monday', component: MondayComponent},
     {path: 'tuesday', component: TuesdayComponent},
