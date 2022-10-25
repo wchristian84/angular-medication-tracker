@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 
@@ -11,6 +12,7 @@ import { MedicationsService } from '../medications.service';
 export class PastMedsComponent implements OnInit, OnDestroy {
   pastMedSubscription = new Subscription;
   pastMedications: Medication[] = [];
+  isDisplaying: boolean = false;
 
   constructor(private medicationsService: MedicationsService) { }
 
@@ -18,7 +20,6 @@ export class PastMedsComponent implements OnInit, OnDestroy {
     this.pastMedications = this.medicationsService.pastMeds;
     this.pastMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
     this.pastMedications = data;
-    console.log(data);
     });
   }
 

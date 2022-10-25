@@ -38,23 +38,30 @@ export class MedicationsService {
 
   deleteCurrentMed (index: number) {
     // get array index from template and splice it from currentMeds array
+    this.currentMeds.splice(index, 1);
+    // send subscription update
+    this.medListChanged.next(this.currentMeds.slice());
   }
 
   deletePreviousMed (index: number) {
     // get array index from template and splice it from pastMeds array
+    this.pastMeds.splice(index, 1);
+    // send subscription update
+    this.medListChanged.next(this.pastMeds.slice());
   }
 
   editCurrentMed (index: number, medication: Medication) {
-    // get array index and use it to splice the existing medication object out
+    // get array index and set item to updated values
     this.currentMeds[index] = medication;
-
-    //push the updated info onto the currentMeds array
+    // send subscription update
+    this.medListChanged.next(this.currentMeds.slice());
   }
 
   editPreviousMed (index: number, medication: Medication) {
-    // get array index and use it to splice the existing medication object out
+    // get array index and set item to updated values
     this.pastMeds[index] = medication;
-    // push the updated info onto the pastMeds array
+    // send subscription update
+    this.medListChanged.next(this.pastMeds.slice());
   }
 
   getCurrentMed (index: number) {
@@ -67,8 +74,10 @@ export class MedicationsService {
 
   moveToPastMeds (currentMedsIndex: number, medication: Medication) {
     // get index in currentMeds array from template to splice object out
+    this.currentMeds.splice(currentMedsIndex, 1);
 
     // push medication object onto pastMeds array
+    this.pastMeds.push(medication);
   }
 
 }

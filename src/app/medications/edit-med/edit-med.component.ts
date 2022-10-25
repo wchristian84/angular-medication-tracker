@@ -10,7 +10,7 @@ import { MedicationsService } from '../medications.service';
   styleUrls: ['./edit-med.component.css']
 })
 export class EditMedComponent implements OnInit {
-  isEditMode: boolean = false;
+  isCurrent: boolean = false;
   editMedForm = new FormGroup({
     name: new FormControl(null, Validators.required),
     dosage: new FormControl(null),
@@ -42,6 +42,7 @@ export class EditMedComponent implements OnInit {
     {this.idx = +params['index'];
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
       this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
+      this.isCurrent = true;
     } else {
       this.selectedMedication = this.medicationsService.getPastMed(this.idx);
     }
@@ -61,14 +62,12 @@ export class EditMedComponent implements OnInit {
       this.editMedForm.value.reasonStopped
       );
 
-    if (this.route.pathFromRoot.toString().includes('current-meds')) {
+    if (this.isCurrent) {
       this.medicationsService.editCurrentMed(this.idx, newMed);
     } else {
       this.medicationsService.editPreviousMed(this.idx, newMed);
     }
     alert(`${this.editMedForm.value.name} updated!`);
-    this.editMedForm.reset();
     this.router.navigate(["../"], { relativeTo: this.route });
-
   }
 }
