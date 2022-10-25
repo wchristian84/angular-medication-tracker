@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 
@@ -10,7 +10,8 @@ import { MedicationsService } from '../medications.service';
   styleUrls: ['./edit-med.component.css']
 })
 export class EditMedComponent implements OnInit {
-  addMedForm = new FormGroup({
+  isEditMode: boolean = false;
+  editMedForm = new FormGroup({
     name: new FormControl(null, Validators.required),
     dosage: new FormControl(null),
     frequency: new FormControl(null),
@@ -21,31 +22,53 @@ export class EditMedComponent implements OnInit {
     reasonStopped: new FormControl(null),
   });
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute) { }
+  idx: number = -1;
+
+  selectedMedication: Medication = {
+    name: '',
+    dosage: '',
+    frequency: '',
+    benefits: '',
+    sideEffects: '',
+    startDate: '',
+    stopDate: '',
+    reasonStopped: ''
+  };
+
+  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    // need to get index from params and get that med to pre-populate form
+    this.route.params.subscribe((params: Params) =>
+    {this.idx = +params['index'];
+    if (this.route.pathFromRoot.toString().includes('current-meds')) {
+      this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
+    } else {
+      this.selectedMedication = this.medicationsService.getPastMed(this.idx);
+    }
+  });
 
   }
 
   onFormSubmit() {
      let newMed = new Medication(
-      this.addMedForm.value.name,
-      this.addMedForm.value.dosage,
-      this.addMedForm.value.frequency,
-      this.addMedForm.value.benefits,
-      this.addMedForm.value.sideEffects,
-      this.addMedForm.value.startDate,
-      this.addMedForm.value.stopDate,
-      this.addMedForm.value.reasonStopped
+      this.editMedForm.value.name,
+      this.editMedForm.value.dosage,
+      this.editMedForm.value.frequency,
+      this.editMedForm.value.benefits,
+      this.editMedForm.value.sideEffects,
+      this.editMedForm.value.startDate,
+      this.editMedForm.value.stopDate,
+      this.editMedForm.value.reasonStopped
       );
 
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
-      this.medicationsService.addCurrentMed(newMed);
+      this.medicationsService.editCurrentMed(this.idx, newMed);
     } else {
-      this.medicationsService.addPreviousMed(newMed);
+      this.medicationsService.editPreviousMed(this.idx, newMed);
     }
-    alert(`${this.addMedForm.value.name} saved!`)
-    this.addMedForm.reset();
+    alert(`${this.editMedForm.value.name} updated!`);
+    this.editMedForm.reset();
+    this.router.navigate(["../"], { relativeTo: this.route });
+
   }
 }

@@ -46,13 +46,14 @@ export class MedicationsService {
 
   editCurrentMed (index: number, medication: Medication) {
     // get array index and use it to splice the existing medication object out
+    this.currentMeds[index] = medication;
 
     //push the updated info onto the currentMeds array
   }
 
   editPreviousMed (index: number, medication: Medication) {
     // get array index and use it to splice the existing medication object out
-
+    this.pastMeds[index] = medication;
     // push the updated info onto the pastMeds array
   }
 

@@ -1,4 +1,4 @@
-<form [formGroup]="addMedForm" (ngSubmit)="onFormSubmit()">
+<form [formGroup]="editMedForm" (ngSubmit)="onFormSubmit()">
   <div id="new-med-info">
     <!-- Med Name -->
     <div class="form-group">
@@ -9,6 +9,7 @@
       id="name"
       class="form-control"
       formControlName="name"
+      [ngModel]="selectedMedication.name"
       />
     </div>
     <!-- Dosage Amount -->
@@ -20,6 +21,7 @@
       id="dosage"
       class="form-control"
       formControlName="dosage"
+      [ngModel]="selectedMedication.dosage"
       />
     </div>
     <!-- Dosing Frequency -->
@@ -31,6 +33,7 @@
       id="frequency"
       class="form-control"
       formControlName="frequency"
+      [ngModel]="selectedMedication.frequency"
       />
     </div>
     <!-- Noted Health Benefits -->
@@ -42,8 +45,8 @@
         id="benefits"
         class="form-control"
         formControlName="benefits">
+        [ngModel]="selectedMedication.benefits"
       </textarea>
-
     </div>
     <!-- Noted Side-Effects -->
     <div class="form-group">
@@ -54,6 +57,7 @@
         id="sideEffects"
         class="form-control"
         formControlName="sideEffects">
+        [ngModel]="selectedMedication.sideEffects"
       </textarea>
     </div>
     <!-- Start Date -->
@@ -65,6 +69,7 @@
       id="startDate"
       class="form-control"
       formControlName="startDate"
+      [ngModel]="selectedMedication.startDate"
       />
     </div>
     <!-- End Date -->
@@ -76,6 +81,7 @@
       id="stopDate"
       class="form-control"
       formControlName="stopDate"
+      [ngModel]="selectedMedication.stopDate"
       />
     </div>
     <!-- Reason Med Stopped -->
@@ -87,10 +93,10 @@
         id="reasonStopped"
         class="form-control"
         formControlName="reasonStopped">
+        [ngModel]="selectedMedication.reasonStopped
       </textarea>
     </div>
-    <button class="btn btn-success my-2 mx-1" type="submit" [disabled]="addMedForm.valid">Submit</button>
+    <button class="btn btn-success my-2 mx-1" type="submit" [disabled]="!editMedForm.valid">Submit</button>
     <button class="btn btn-danger my-2 mx-1" type="button" routerLink="../">Cancel</button>
   </div>
 </form>
-
