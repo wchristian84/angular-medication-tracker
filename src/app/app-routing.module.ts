@@ -14,6 +14,7 @@ import { SundayComponent } from './schedule/sunday/sunday.component';
 import { ThursdayComponent } from './schedule/thursday/thursday.component';
 import { TuesdayComponent } from './schedule/tuesday/tuesday.component';
 import { WednesdayComponent } from './schedule/wednesday/wednesday.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/current-meds', pathMatch: 'full'},
@@ -35,7 +36,8 @@ const routes: Routes = [
     {path: 'friday', component: FridayComponent},
     {path: 'saturday', component: SaturdayComponent},
     {path: 'sunday', component: SundayComponent},
-  ]}
+  ]},
+  {path: 'search', component: SearchComponent}
 ];
 
 @NgModule({
