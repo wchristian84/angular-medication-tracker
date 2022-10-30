@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { SaturdayComponent } from './schedule/saturday/saturday.component';
 import { SundayComponent } from './schedule/sunday/sunday.component';
 import { EditMedComponent } from './medications/edit-med/edit-med.component';
 import { AddMedComponent } from './medications/add-med/add-med.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +35,15 @@ import { AddMedComponent } from './medications/add-med/add-med.component';
     SaturdayComponent,
     SundayComponent,
     EditMedComponent,
-    AddMedComponent
+    AddMedComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

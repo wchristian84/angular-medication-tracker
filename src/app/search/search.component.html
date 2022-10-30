@@ -1,0 +1,5 @@
+<div *ngFor="let result of results">
+  <p class="h3">{{ result.name }} {{ result.dosage }}</p>
+  <button type="button" class="btn btn-primary" (click)="onAddCurrent(result)">Add to current medications</button>
+  <button type="button" class="btn btn-success"(click)="onAddPrevious(result)">Add to previous medications</button>
+</div>

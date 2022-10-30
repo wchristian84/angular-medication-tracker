@@ -12,8 +12,8 @@
         <a class="nav-link" routerLink="/schedule">Schedule</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Find a Medication" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
+      <input class="form-control mr-sm-2" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term">
       <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
