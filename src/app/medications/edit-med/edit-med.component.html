@@ -73,7 +73,7 @@
       />
     </div>
     <!-- End Date -->
-    <div class="form-group">
+    <div class="form-group" *ngIf="!isCurrent">
       <label for="stop-date">Date Stopped:</label>
       <input
       type="text"
@@ -85,7 +85,7 @@
       />
     </div>
     <!-- Reason Med Stopped -->
-    <div class="form-group">
+    <div class="form-group" *ngIf="!isCurrent">
       <label for="reason">Reason Stopped Taking:</label>
       <textarea
         rows="5"
@@ -93,7 +93,8 @@
         id="reasonStopped"
         class="form-control"
         formControlName="reasonStopped">
-        [ngModel]="selectedMedication.reasonStopped
+        [ngModel]="selectedMedication.reasonStopped"
+        >
       </textarea>
     </div>
     <button class="btn btn-success my-2 mx-1" type="submit" [disabled]="!editMedForm.valid">Submit</button>

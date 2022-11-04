@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand mx-1">Easy Med Tracker</a>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-between">
+  <a class="navbar-brand mx-3">Easy Med Tracker</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link" routerLink="/current-meds">Current Medications</a>
       </li>
@@ -12,9 +12,11 @@
         <a class="nav-link" routerLink="/schedule">Schedule</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
-      <input class="form-control mr-sm-2" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term">
-      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </div>
+  <div class="mx-3">
+    <form class="form-inline" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
+      <input class="form-control mx-auto" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
     </form>
   </div>
 </nav>

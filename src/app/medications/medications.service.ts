@@ -11,8 +11,8 @@ export class MedicationsService {
   medSelected = new Subject<Medication>();
 
   currentMeds: Medication[] = [ // array for holding current medications
-    {name: 'test name', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'},
-    {name: 'test name 2', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'}
+  {name: 'test name', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'},
+  {name: 'test name 2', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'}
   ];
 
   pastMeds: Medication[] = [// array for holding discontinued medications

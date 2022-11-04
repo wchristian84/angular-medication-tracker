@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
@@ -11,6 +11,8 @@ import { MedicationsService } from '../medications.service';
   styleUrls: ['./add-med.component.css']
 })
 export class AddMedComponent implements OnInit {
+  isCurrent: boolean = false;
+
   addMedForm = new FormGroup({
     name: new FormControl(null, Validators.required),
     dosage: new FormControl(null),
@@ -25,7 +27,9 @@ export class AddMedComponent implements OnInit {
   constructor(private medicationsService: MedicationsService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    if (this.route.pathFromRoot.toString().includes('current-meds')) {
+      this.isCurrent = true;
+    };
   }
 
   onFormSubmit() {
