@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Medication } from '../medications.model';
@@ -13,15 +13,15 @@ import { MedicationsService } from '../medications.service';
 export class AddMedComponent implements OnInit {
   isCurrent: boolean = false;
 
-  addMedForm = new FormGroup({
-    name: new FormControl(null, Validators.required),
-    dosage: new FormControl(null),
-    frequency: new FormControl(null),
-    benefits: new FormControl(null),
-    sideEffects: new FormControl(null),
-    startDate: new FormControl(null),
-    stopDate: new FormControl(null),
-    reasonStopped: new FormControl(null),
+  addMedForm = new UntypedFormGroup({
+    name: new UntypedFormControl(null, Validators.required),
+    dosage: new UntypedFormControl(null),
+    frequency: new UntypedFormControl(null),
+    benefits: new UntypedFormControl(null),
+    sideEffects: new UntypedFormControl(null),
+    startDate: new UntypedFormControl(null),
+    stopDate: new UntypedFormControl(null),
+    reasonStopped: new UntypedFormControl(null),
   });
 
   constructor(private medicationsService: MedicationsService, private route: ActivatedRoute) { }

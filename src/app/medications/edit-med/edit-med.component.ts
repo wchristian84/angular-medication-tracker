@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
@@ -11,15 +11,15 @@ import { MedicationsService } from '../medications.service';
 })
 export class EditMedComponent implements OnInit {
   isCurrent: boolean = false;
-  editMedForm = new FormGroup({
-    name: new FormControl(null, Validators.required),
-    dosage: new FormControl(null),
-    frequency: new FormControl(null),
-    benefits: new FormControl(null),
-    sideEffects: new FormControl(null),
-    startDate: new FormControl(null),
-    stopDate: new FormControl(null),
-    reasonStopped: new FormControl(null),
+  editMedForm = new UntypedFormGroup({
+    name: new UntypedFormControl(null, Validators.required),
+    dosage: new UntypedFormControl(null),
+    frequency: new UntypedFormControl(null),
+    benefits: new UntypedFormControl(null),
+    sideEffects: new UntypedFormControl(null),
+    startDate: new UntypedFormControl(null),
+    stopDate: new UntypedFormControl(null),
+    reasonStopped: new UntypedFormControl(null),
   });
 
   idx: number = -1;
