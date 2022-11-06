@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { CalendarModule, DateAdapter } from "angular-calendar";
 import { SharedModule } from "../shared/shared.module";
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
 
 import { FridayComponent } from "./friday/friday.component";
 import { MondayComponent } from "./monday/monday.component";
@@ -24,7 +26,11 @@ import { WednesdayComponent } from "./wednesday/wednesday.component";
   ],
   imports: [
     SharedModule,
-    RouterModule
+    RouterModule,
+    CalendarModule.forRoot({
+    provide: DateAdapter,
+    useFactory: adapterFactory
+    })
   ]
 })
 
