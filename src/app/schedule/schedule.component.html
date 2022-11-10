@@ -1,1 +1,38 @@
-<p>schedule works!</p>
+<div class="row text-center justify-content-between">
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-outline-secondary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Monthly</div>
+      <div class="btn btn-outline-secondary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Weekly</div>
+      <div class="btn btn-outline-secondary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Daily</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h4>{{ viewDate | date: 'longDate' }}</h4>
+  </div>
+  <div class="col-md-4">
+      <div class="btn-group">
+          <div class="btn btn-outline-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
+              Previous
+          </div>
+          <div class="btn btn-outline-primary" mwlCalendarToday [(viewDate)]="viewDate">
+              Today
+          </div>
+          <div class="btn btn-outline-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
+              Next
+          </div>
+      </div>
+  </div>
+</div>
+
+<div [ngSwitch]="view">
+
+  <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="medSchedule">
+  </mwl-calendar-month-view>
+
+  <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate">
+  </mwl-calendar-week-view>
+
+  <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate">
+  </mwl-calendar-day-view>
+
+</div>
