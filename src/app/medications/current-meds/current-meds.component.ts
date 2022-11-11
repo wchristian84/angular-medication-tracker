@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 
@@ -12,13 +13,14 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
   currentMedications: Medication[] = [];
 
-  constructor(private medicationsService: MedicationsService) { }
+  constructor(private medicationsService: MedicationsService, private http: HttpService) { }
 
   ngOnInit(): void {
     this.currentMedications = this.medicationsService.currentMeds;
     this.currentMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
-    this.currentMedications = data;
-    console.log(data);
+      this.currentMedications = data;
+      this.http.saveCurrentMedsToFirebase(data);
+      console.log(data);
     });
   }
 

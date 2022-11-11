@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from "rxjs";
-import { HttpService } from '../shared/http/http.service';
+
 
 import { Medication } from './medications.model';
 
@@ -21,13 +21,11 @@ export class MedicationsService {
     {name: 'that one med', dosage: '30 mg', frequency: 'once per day', benefits: 'slept better', sideEffects: 'none', startDate: 'March 2018', stopDate: 'July 2020', reasonStopped: 'quit working as well'}
   ];
 
-  constructor(private httpService: HttpService) { }
+  constructor() { }
 
   addCurrentMed (medication: Medication) {
     // receive medication object from form and add to currentMeds array
     this.currentMeds.push(medication);
-    // update database
-    this.httpService.saveCurrentMedsToFirebase(this.currentMeds);
     // send subscription update
     this.medListChanged.next(this.currentMeds.slice());
   }
@@ -35,8 +33,6 @@ export class MedicationsService {
   addPreviousMed (medication: Medication) {
     // receive medication object from form and add to pastMeds array
     this.pastMeds.push(medication);
-    // update database
-    this.httpService.savePastMedsToFirebase(this.pastMeds);
     // send subscription update
     this.medListChanged.next(this.pastMeds.slice());
   }
@@ -85,4 +81,15 @@ export class MedicationsService {
     this.pastMeds.push(medication);
   }
 
+  updateCurrentArray(meds: Medication[]) {
+    this.currentMeds = meds;
+    // send subscription update
+    this.medListChanged.next(this.currentMeds.slice());
+  }
+
+  updatePastArray(meds: Medication[]) {
+    this.pastMeds = meds;
+    // send subscription update
+    this.medListChanged.next(this.pastMeds.slice());
+  }
 }

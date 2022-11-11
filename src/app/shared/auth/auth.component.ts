@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+import { AuthResponseData, AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,11 +11,13 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent implements OnInit {
   isLoginMode = true;
+  authObsrv: Observable<AuthResponseData> | undefined;
   errMessage = null;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.authService.automaticSignIn();
   }
 
   onAuthFormSubmit(formObj: NgForm) {
@@ -23,31 +26,27 @@ export class AuthComponent implements OnInit {
     const { email, password } = formObj.value;
 
     if (this.isLoginMode) {
-      this.authService.signIn(email, password).subscribe((response) => {
-        console.log('Auth Login Response: ', response);
-        if (this.errMessage) {this.errMessage = null;}
+        this.authObsrv = this.authService.signIn(email, password);
+      } else {
+        this.authObsrv = this.authService.signUp(email, password);
+      }
 
-        // Reroute to /current-meds on success
-        this.router.navigate(['current-meds']);
-      },
-      (err) => {
-        console.error('Auth Response Error: ', err);
-        this.errMessage = err.message;
+      this.authObsrv.subscribe(
+        (res) => {
+          console.log('Auth Response Success: ', res);
+          if (this.errMessage) this.errMessage = null;
+
+          // Reroute to /current-meds on success
+          this.router.navigate(['current-meds']);
+        },
+        (err) => {
+          console.error("Auth Response Error: ", err);
+          this.errMessage = err.message;
         }
       );
-    } else {
-      this.authService.signUp(email, password).subscribe((response) => {
-        console.log('Auth Response Success: ', response);
-        if (this.errMessage) {this.errMessage = null;}
-      },
-      (err) => {
-        console.error('Auth Response Error: ', err);
-        this.errMessage = err.message;
-        }
-      );
-    }
 
     formObj.reset();
+
 
   }
 

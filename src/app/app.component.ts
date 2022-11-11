@@ -13,7 +13,12 @@ import { AuthService } from './shared/auth/auth.service';
 export class AppComponent implements OnInit, OnDestroy{
   isAuthenticated: boolean = false;
 
-  constructor(private searchService: SearchService, private router: Router, private route: ActivatedRoute, private authService: AuthService){}
+  constructor(
+    private searchService: SearchService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+  ){}
 
     ngOnInit(): void {
         this.authService.currentUser.subscribe((user) => {
@@ -22,6 +27,10 @@ export class AppComponent implements OnInit, OnDestroy{
         if (!this.isAuthenticated) {
           this.router.navigate(['/auth'], {relativeTo: this.route});
         }
+    }
+
+    onLogout() {
+      this.authService.signOut;
     }
 
     onSearch(form: NgForm) {
