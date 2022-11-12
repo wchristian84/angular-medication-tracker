@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Params } from '@angular/router';
+import { HttpService } from 'src/app/shared/http/http.service';
 
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
@@ -24,7 +25,7 @@ export class AddMedComponent implements OnInit {
     reasonStopped: new UntypedFormControl(null),
   });
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute) { }
+  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private http: HttpService) { }
 
   ngOnInit(): void {
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
@@ -49,7 +50,8 @@ export class AddMedComponent implements OnInit {
     } else {
       this.medicationsService.addPreviousMed(newMed);
     }
-    alert(`${this.addMedForm.value.name} saved!`)
+    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+    alert(`${this.addMedForm.value.name} saved!`);
     this.addMedForm.reset();
   }
 

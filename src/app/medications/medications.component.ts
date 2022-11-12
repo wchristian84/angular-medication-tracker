@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpService } from '../shared/http/http.service';
 
 import { Medication } from './medications.model';
 import { MedicationsService } from './medications.service';
@@ -23,7 +24,7 @@ export class MedicationsComponent implements OnInit {
   idx: number = -1;
   isCurrent: boolean = false;
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -45,6 +46,7 @@ export class MedicationsComponent implements OnInit {
       } else {
         this.medicationsService.deletePreviousMed(index);
       }
+      this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
@@ -52,6 +54,7 @@ export class MedicationsComponent implements OnInit {
   endMedication(index: number, stoppedMed: Medication) {
     if (confirm(`Move ${stoppedMed.name} to Previous Medications?`)) {
       this.medicationsService.moveToPastMeds(index, stoppedMed);
+      this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
   }

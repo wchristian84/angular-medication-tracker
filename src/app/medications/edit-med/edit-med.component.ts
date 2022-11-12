@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 
@@ -35,7 +36,7 @@ export class EditMedComponent implements OnInit {
     reasonStopped: ''
   };
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) =>
@@ -67,6 +68,7 @@ export class EditMedComponent implements OnInit {
     } else {
       this.medicationsService.editPreviousMed(this.idx, newMed);
     }
+    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
     alert(`${this.editMedForm.value.name} updated!`);
     this.router.navigate(["../"], { relativeTo: this.route });
   }

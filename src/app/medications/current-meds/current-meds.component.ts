@@ -19,7 +19,6 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
     this.currentMedications = this.medicationsService.currentMeds;
     this.currentMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
       this.currentMedications = data;
-      this.http.saveCurrentMedsToFirebase(data);
       console.log(data);
     });
   }
