@@ -10,7 +10,7 @@ export class AuthInterceptorService implements HttpInterceptor{
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (req.url.includes('https://identitytoolkit.googleapis.com') || req.url.includes('https://angular-medication-tracker-default-rtdb.firebaseio.com/')) {
+    if (req.url.includes('https://identitytoolkit.googleapis.com') || req.url.includes('https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/')) {
     return this.authService.currentUser.pipe(
       take(1),
       exhaustMap(user => {

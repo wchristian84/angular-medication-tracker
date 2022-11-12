@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { tap } from "rxjs/operators";
 
 import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
@@ -12,25 +11,25 @@ import { UserData } from "../auth/auth.service";
 })
 export class HttpService {
   userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-  firebaseDatabaseURL = 'https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/' + `${this.userData.id}.json`;
+  firebaseDatabaseURL = `https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/${this.userData.id}.json`;
+  firebaseUserURL = `https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/${this.userData.id}/`
 
   constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
 
   fetchCurrentFromFirebase() {
-    return this.http.get<Medication[]>(this.firebaseDatabaseURL, {}).pipe(
-      tap(meds => {
-        this.medicationsService.updateCurrentArray(meds);
-        console.log('response object: ', meds);
-      })
-    );
+    return this.http.get<Medication[]>(`${this.firebaseUserURL}currentMeds.json`, {})
+    .subscribe(meds => {
+      this.medicationsService.updateCurrentArray(meds);
+      console.log('response from DB: ', meds);
+    });
   }
 
   fetchPastFromFirebase() {
-    return this.http.get<Medication[]>(this.firebaseDatabaseURL, {}).pipe(
-      tap(meds => {
+    return this.http.get<Medication[]>(this.firebaseUserURL + 'pastMeds.json', {})
+      .subscribe(meds => {
         this.medicationsService.updatePastArray(meds);
-      })
-    );
+        console.log('response from DB: ', meds);
+      });
   }
 
   saveMedsToFirebase(currentMeds: Medication[], pastMeds: Medication[]) {
@@ -42,14 +41,6 @@ export class HttpService {
     }
 
     this.http.put(this.firebaseDatabaseURL, meds).subscribe(res => {
-      console.log("Firebase DB Response:", res);
-    });
-  }
-
-  savePastMedsToFirebase(meds: Medication[]) {
-    const past: Medication[] = meds;
-
-    this.http.put(this.firebaseDatabaseURL, past).subscribe(res => {
       console.log("Firebase DB Response:", res);
     });
   }

@@ -12,13 +12,9 @@ export class MedicationsService {
   medSelected = new Subject<Medication>();
 
   currentMeds: Medication[] = [ // array for holding current medications
-  {name: 'test name', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'},
-  {name: 'test name 2', dosage: 'test dosage', frequency: 'test frequency', benefits: 'test benefits', sideEffects: '', startDate: '', stopDate: '', reasonStopped: 'test reason'}
   ];
 
   pastMeds: Medication[] = [// array for holding discontinued medications
-    {name: 'blah blah', dosage: 'a lot', frequency: 'as needed', benefits: 'less coughing', sideEffects: 'so much vomiting', startDate: 'May 2003', stopDate: 'June 2003', reasonStopped: 'so much vomiting'},
-    {name: 'that one med', dosage: '30 mg', frequency: 'once per day', benefits: 'slept better', sideEffects: 'none', startDate: 'March 2018', stopDate: 'July 2020', reasonStopped: 'quit working as well'}
   ];
 
   constructor() { }
@@ -79,6 +75,10 @@ export class MedicationsService {
 
     // push medication object onto pastMeds array
     this.pastMeds.push(medication);
+
+    // send subscription update
+    this.medListChanged.next(this.pastMeds.slice());
+    this.medListChanged.next(this.currentMeds.slice());
   }
 
   updateCurrentArray(meds: Medication[]) {
