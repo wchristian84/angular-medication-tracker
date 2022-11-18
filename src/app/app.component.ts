@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy{
     }
 
     onLogout() {
-      this.authService.signOut;
+      this.authService.signOut();
     }
 
     onSearch(form: NgForm) {

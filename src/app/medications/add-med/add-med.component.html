@@ -1,4 +1,4 @@
-<form [formGroup]="addMedForm" (ngSubmit)="onFormSubmit()">
+<form [formGroup]="addMedForm" (ngSubmit)="onFormSubmit(addMedForm)">
   <div id="new-med-info">
     <!-- Med Name -->
     <div class="form-group">
@@ -25,13 +25,48 @@
     <!-- Dosing Frequency -->
     <div class="form-group">
       <label for="frequency">Dosing Frequency:</label>
-      <input
-      type="text"
+      <select
       name="frequency"
       id="frequency"
       class="form-control"
-      formControlName="frequency"
-      />
+      formControlName="frequency">
+        <option *ngFor="let frequency of frequencies">{{ frequency }}</option>
+      </select>
+    </div>
+    <!-- Monthly Date -->
+    <div class="form-group" *ngIf="addMedForm.value.frequency == 'Monthly'">
+      <label for="date">Date to repeat on:</label>
+      <input
+      type="number"
+      max="31"
+      min="1"
+      name="date"
+      id="date"
+      class="form-control"
+      formControlName="date" />
+    </div>
+    <!-- Day of Week -->
+    <div class="form-group" *ngIf="addMedForm.value.frequency == 'Weekly'">
+      <label for="day">Day to repeat on:</label>
+      <select
+      name="day"
+      id="day"
+      class="form-control"
+      formControlName="day">
+        <option *ngFor="let day of weekdays">{{ day }}</option>
+      </select>
+    </div>
+    <!-- Time(s) of Day -->
+    <div *ngIf="addMedForm.value.frequency">
+      Times of day taken:
+      <div  class="form-group" *ngFor="let time of dosingTimes">
+        <input
+        type="checkbox"
+        value="{{ time }}"
+        id="{{ time }}"
+        formArrayName="timeOfDay" />
+        <label for="{{ time }}">{{ time }}</label>
+      </div>
     </div>
     <!-- Noted Health Benefits -->
     <div class="form-group">
@@ -43,7 +78,6 @@
         class="form-control"
         formControlName="benefits">
       </textarea>
-
     </div>
     <!-- Noted Side-Effects -->
     <div class="form-group">

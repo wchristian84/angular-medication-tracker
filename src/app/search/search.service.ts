@@ -31,7 +31,7 @@ export class SearchService {
   }
 
   saveResults(response: any) {
-    // Loop through relevant part of response object to create new entry for each result
+    // Map relevant part of response object to create new entry for each result
     response.results[0].products.map((product: any) => {
       const { brand_name, active_ingredients} = product;
 
@@ -53,11 +53,14 @@ export class SearchService {
         `${brandName}(${genericName})`,
         dosage,
         '',
+        undefined,
+        '',
+        [''],
         '',
         '',
         '',
         '',
-        '',
+        ''
       );
       // Add to local array variable for results
       this.allResults.push(newProd);

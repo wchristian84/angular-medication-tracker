@@ -5,7 +5,6 @@ import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
 import { UserData } from "../auth/auth.service";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,16 +18,26 @@ export class HttpService {
   fetchCurrentFromFirebase() {
     return this.http.get<Medication[]>(`${this.firebaseUserURL}currentMeds.json`, {})
     .subscribe(meds => {
-      this.medicationsService.updateCurrentArray(meds);
-      console.log('response from DB: ', meds);
+      if (meds === null) {
+        this.medicationsService.currentMeds = [];
+      }
+      else {
+        this.medicationsService.updateCurrentArray(meds);
+        console.log('response from DB: ', meds);
+      }
     });
   }
 
   fetchPastFromFirebase() {
     return this.http.get<Medication[]>(this.firebaseUserURL + 'pastMeds.json', {})
       .subscribe(meds => {
-        this.medicationsService.updatePastArray(meds);
-        console.log('response from DB: ', meds);
+        if (meds === null) {
+          this.medicationsService.pastMeds = [];
+        }
+        else {
+          this.medicationsService.updatePastArray(meds);
+          console.log('response from DB: ', meds);
+        }
       });
   }
 
@@ -37,10 +46,10 @@ export class HttpService {
     const thisUser = userData.id;
     const meds = {
         "currentMeds": currentMeds,
-        "pastMeds": pastMeds
+        "pastMeds": pastMeds,
     }
 
-    this.http.put(this.firebaseDatabaseURL, meds).subscribe(res => {
+    this.http.patch(this.firebaseDatabaseURL, meds).subscribe(res => {
       console.log("Firebase DB Response:", res);
     });
   }

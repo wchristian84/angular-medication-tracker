@@ -10,6 +10,31 @@ import { Medication } from './medications.model';
 export class MedicationsService {
   medListChanged = new Subject<Medication[]>();
   medSelected = new Subject<Medication>();
+  dosingFrequencies = [
+    '',
+    'Monthly',
+    'Weekly',
+    'Daily'
+  ];
+
+  daysOfWeek = [
+    '',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ]
+
+  timesOfDay = [
+    'Morning',
+    'Mid-day',
+    'Evening',
+    'Night'
+  ]
+
 
   currentMeds: Medication[] = [ // array for holding current medications
   ];
@@ -62,10 +87,12 @@ export class MedicationsService {
   }
 
   getCurrentMed (index: number) {
+    // Find correct medication in array and return values
     return this.currentMeds.slice()[index];
   }
 
   getPastMed (index: number) {
+    // Find correct medication in array and return values
     return this.pastMeds.slice()[index];
   }
 

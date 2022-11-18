@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from "@angular/forms";
+import { UntypedFormGroup, Validators, FormControl, FormGroup, FormArray } from "@angular/forms";
 import { ActivatedRoute, Params } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 
@@ -13,36 +13,49 @@ import { MedicationsService } from '../medications.service';
 })
 export class AddMedComponent implements OnInit {
   isCurrent: boolean = false;
+  frequencies: string[] = [];
+  weekdays: string[] = [];
+  dosingTimes: string[] = [];
 
-  addMedForm = new UntypedFormGroup({
-    name: new UntypedFormControl(null, Validators.required),
-    dosage: new UntypedFormControl(null),
-    frequency: new UntypedFormControl(null),
-    benefits: new UntypedFormControl(null),
-    sideEffects: new UntypedFormControl(null),
-    startDate: new UntypedFormControl(null),
-    stopDate: new UntypedFormControl(null),
-    reasonStopped: new UntypedFormControl(null),
+  addMedForm = new FormGroup({
+    name: new FormControl<string | null>(null, Validators.required),
+    dosage: new FormControl<string | null>(null),
+    frequency: new FormControl<string | null>(null),
+    date: new FormControl<number | null>(null),
+    day: new FormControl<string | null>(null),
+    timeOfDay: new FormArray([]),
+    benefits: new FormControl<string | null>(null),
+    sideEffects: new FormControl<string | null>(null),
+    startDate: new FormControl<string | null>(null),
+    stopDate: new FormControl<string | null>(null),
+    reasonStopped: new FormControl<string | null>(null),
   });
 
   constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private http: HttpService) { }
 
   ngOnInit(): void {
+    this.frequencies = this.medicationsService.dosingFrequencies;
+    this.weekdays = this.medicationsService.daysOfWeek;
+    this.dosingTimes = this.medicationsService.timesOfDay;
+
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
       this.isCurrent = true;
     };
   }
 
-  onFormSubmit() {
+  onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
-      this.addMedForm.value.name,
-      this.addMedForm.value.dosage,
-      this.addMedForm.value.frequency,
-      this.addMedForm.value.benefits,
-      this.addMedForm.value.sideEffects,
-      this.addMedForm.value.startDate,
-      this.addMedForm.value.stopDate,
-      this.addMedForm.value.reasonStopped
+      medForm.value.name,
+      medForm.value.dosage,
+      medForm.value.frequency,
+      medForm.value.date,
+      medForm.value.day,
+      medForm.value.timeOfDay,
+      medForm.value.benefits,
+      medForm.value.sideEffects,
+      medForm.value.startDate,
+      medForm.value.stopDate,
+      medForm.value.reasonStopped
       );
 
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
@@ -51,8 +64,8 @@ export class AddMedComponent implements OnInit {
       this.medicationsService.addPreviousMed(newMed);
     }
     this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
-    alert(`${this.addMedForm.value.name} saved!`);
-    this.addMedForm.reset();
+    alert(`${medForm.value.name} saved!`);
+    medForm.reset();
   }
 
 }
