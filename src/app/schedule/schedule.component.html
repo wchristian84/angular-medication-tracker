@@ -1,6 +1,118 @@
 <div>
-  <p class="h3">Daily Meds:</p>
-  <div *ngFor="let item of dailyMeds">
-    <p>{{ item.name }}</p>
-  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Sunday</th>
+        <th scope="col">Monday</th>
+        <th scope="col">Tuesday</th>
+        <th scope="col">Wednesday</th>
+        <th scope="col">Thursday</th>
+        <th scope="col">Friday</th>
+        <th scope="col">Saturday</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <!-- Morning Row -->
+        <th scope="row">Morning</th>
+          <td *ngFor="let med of sunday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of monday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of tuesday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of wednesday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of thursday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of friday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of saturday.morning">
+            <ul>{{ med }}</ul>
+          </td>
+      </tr>
+      <tr>
+      <!-- Mid-Day Row -->
+        <th scope="row">Mid-Day</th>
+        <td *ngFor="let med of sunday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of monday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of tuesday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of wednesday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of thursday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of friday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of saturday.midday">
+          <ul>{{ med }}</ul>
+        </td>
+      </tr>
+      <tr>
+      <!-- Evening Row -->
+        <th scope="row">Evening/th>
+          <td *ngFor="let med of sunday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of monday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of tuesday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of wednesday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of thursday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of friday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+          <td *ngFor="let med of saturday.evening">
+            <ul>{{ med }}</ul>
+          </td>
+      </tr>
+      <tr>
+      <!--Night Row -->
+        <th scope="row">Night</th>
+        <td *ngFor="let med of sunday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of monday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of tuesday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of wednesday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of thursday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of friday.night">
+          <ul>{{ med }}</ul>
+        </td>
+        <td *ngFor="let med of saturday.night">
+          <ul>{{ med }}</ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
