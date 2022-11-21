@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
@@ -22,7 +22,12 @@ export class EditMedComponent implements OnInit {
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: new FormControl<string[]>([]),
+    timeOfDay: new FormArray([
+      new FormControl<string>(''),
+      new FormControl<string>(''),
+      new FormControl<string>(''),
+      new FormControl<string>(''),
+    ]),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),

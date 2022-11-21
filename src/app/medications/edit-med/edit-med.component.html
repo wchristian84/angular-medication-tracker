@@ -56,18 +56,19 @@
         <option *ngFor="let day of weekdays">{{ day }}</option>
       </select>
     </div>
-      <!-- Time(s) of Day -->
-      <div *ngIf="editMedForm.value.frequency">
-        Times of day taken:
-        <div  class="form-group" *ngFor="let time of dosingTimes">
+    <!-- Time(s) of Day -->
+    <div *ngIf="editMedForm.value.frequency">
+      <label>Times of day taken:</label>
+        <div class="form-group" *ngFor="let time of dosingTimes">
           <input
           type="checkbox"
+          name="timeOfDay"
           value="{{ time }}"
           id="{{ time }}"
           formArrayName="timeOfDay" />
-          <label for="{{ time }}">{{ time }}</label>
-        </div>
+        <label for="{{ time }}">{{ time }}</label>
       </div>
+    </div>
     <!-- Noted Health Benefits -->
     <div class="form-group">
       <label for="benefits">Noted Health Benefits:</label>

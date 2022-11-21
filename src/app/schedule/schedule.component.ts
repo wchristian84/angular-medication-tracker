@@ -13,7 +13,7 @@ export class ScheduleComponent implements OnInit {
   today!: Date;
   weekStart!: Date;
   weekEnds!: Date;
-  daysOfWeek!: Date[];
+  daysOfWeek: Date[] = [];
   // Arrays for Medications
   dailyMeds: Medication[] = [];
   weeklyMeds: Medication[] = [];
@@ -74,9 +74,13 @@ export class ScheduleComponent implements OnInit {
     this.weekEnds = endOfWeek(this.today);
     // Get current meds
     this.current = this.medicationsService.currentMeds.slice();
+    console.log('current', this.current);
 
     this.sortByFrequency();
     this.sortDaily();
+    console.log('dailyMeds', this.dailyMeds);
+    console.log('weeklyMeds', this.weeklyMeds);
+    console.log('monthlyMeds', this.monthlyMeds);
     this.sortWeekly();
     this.sortMonthly(this.weekStart);
 
@@ -121,7 +125,7 @@ export class ScheduleComponent implements OnInit {
       this.saturday.night.push(medName);
     }
   }
-  
+
   sortByFrequency() {
     for (let medication of this.current) {
       if (medication.frequency === 'Daily') {
@@ -138,242 +142,248 @@ export class ScheduleComponent implements OnInit {
   }
 
   sortDaily() {
-    for (let medication of this.dailyMeds) {
-      if (medication.timeOfDay?.includes('Morning')) {
-        this.pushToAll('Morning', medication.name);
-      }
-      
-      if (medication.timeOfDay?.includes('Mid-day')) {
-        this.pushToAll('Mid-day', medication.name);
-      }
+    if (this.dailyMeds.length > 0){
+      for (let medication of this.dailyMeds) {
+        if (medication.timeOfDay?.includes('Morning')) {
+          this.pushToAll('Morning', medication.name);
+        }
 
-      if (medication.timeOfDay?.includes('Evening')) {
-        this.pushToAll('Evening', medication.name);
-      }
+        if (medication.timeOfDay?.includes('Mid-day')) {
+          this.pushToAll('Mid-day', medication.name);
+        }
 
-      if (medication.timeOfDay?.includes('Evening')) {
-        this.pushToAll('Evening', medication.name);
+        if (medication.timeOfDay?.includes('Evening')) {
+          this.pushToAll('Evening', medication.name);
+        }
+
+        if (medication.timeOfDay?.includes('Evening')) {
+          this.pushToAll('Evening', medication.name);
+        }
       }
     }
   }
 
   sortMonthly(starts: Date) {
-    for (let i = 0; i < 7; i++) {
-      const newDay = add(starts, {days: i});
-      this.daysOfWeek.push(newDay);
-    }
+    if (this.monthlyMeds.length > 0) {
+      for (let i = 0; i < 7; i++) {
+        const newDay = add(starts, {days: i});
+        this.daysOfWeek.push(newDay);
+      }
 
-    for (let med of this.monthlyMeds) {
-      for (let i = 0; i < 6; i++) {
-        if (med.date == this.daysOfWeek[i].getDate()) {
-          if (med.timeOfDay?.includes('Morning') ) {
-            switch(i) {
-              case 0:
-                this.sunday.morning.push(med.name);
-                break;
-              case 1:
-                this.monday.morning.push(med.name);
-                break;
-              case 2: 
-                this.tuesday.morning.push(med.name);
-                break;
-              case 3:
-                this.wednesday.morning.push(med.name);
-                break;
-              case 4:
-                this.thursday.morning.push(med.name);
-                break;
-              case 5:
-                this.friday.morning.push(med.name);
-                break;
-              case 6:
-                this.saturday.morning.push(med.name);
-                break;
+      for (let med of this.monthlyMeds) {
+        for (let i = 0; i < 6; i++) {
+          if (med.date == this.daysOfWeek[i].getDate()) {
+            if (med.timeOfDay?.includes('Morning') ) {
+              switch(i) {
+                case 0:
+                  this.sunday.morning.push(med.name);
+                  break;
+                case 1:
+                  this.monday.morning.push(med.name);
+                  break;
+                case 2:
+                  this.tuesday.morning.push(med.name);
+                  break;
+                case 3:
+                  this.wednesday.morning.push(med.name);
+                  break;
+                case 4:
+                  this.thursday.morning.push(med.name);
+                  break;
+                case 5:
+                  this.friday.morning.push(med.name);
+                  break;
+                case 6:
+                  this.saturday.morning.push(med.name);
+                  break;
+              }
             }
-          }
-          if (med.timeOfDay?.includes('Mid-day') ) {
-            switch(i) {
-              case 0:
-                this.sunday.midday.push(med.name);
-                break;
-              case 1:
-                this.monday.midday.push(med.name);
-                break;
-              case 2: 
-                this.tuesday.midday.push(med.name);
-                break;
-              case 3:
-                this.wednesday.midday.push(med.name);
-                break;
-              case 4:
-                this.thursday.midday.push(med.name);
-                break;
-              case 5:
-                this.friday.midday.push(med.name);
-                break;
-              case 6:
-                this.saturday.midday.push(med.name);
-                break;
+            if (med.timeOfDay?.includes('Mid-day') ) {
+              switch(i) {
+                case 0:
+                  this.sunday.midday.push(med.name);
+                  break;
+                case 1:
+                  this.monday.midday.push(med.name);
+                  break;
+                case 2:
+                  this.tuesday.midday.push(med.name);
+                  break;
+                case 3:
+                  this.wednesday.midday.push(med.name);
+                  break;
+                case 4:
+                  this.thursday.midday.push(med.name);
+                  break;
+                case 5:
+                  this.friday.midday.push(med.name);
+                  break;
+                case 6:
+                  this.saturday.midday.push(med.name);
+                  break;
+              }
             }
-          }
-          if (med.timeOfDay?.includes('Mid-day') ) {
-            switch(i) {
-              case 0:
-                this.sunday.evening.push(med.name);
-                break;
-              case 1:
-                this.monday.evening.push(med.name);
-                break;
-              case 2: 
-                this.tuesday.evening.push(med.name);
-                break;
-              case 3:
-                this.wednesday.evening.push(med.name);
-                break;
-              case 4:
-                this.thursday.evening.push(med.name);
-                break;
-              case 5:
-                this.friday.evening.push(med.name);
-                break;
-              case 6:
-                this.saturday.evening.push(med.name);
-                break;
+            if (med.timeOfDay?.includes('Mid-day') ) {
+              switch(i) {
+                case 0:
+                  this.sunday.evening.push(med.name);
+                  break;
+                case 1:
+                  this.monday.evening.push(med.name);
+                  break;
+                case 2:
+                  this.tuesday.evening.push(med.name);
+                  break;
+                case 3:
+                  this.wednesday.evening.push(med.name);
+                  break;
+                case 4:
+                  this.thursday.evening.push(med.name);
+                  break;
+                case 5:
+                  this.friday.evening.push(med.name);
+                  break;
+                case 6:
+                  this.saturday.evening.push(med.name);
+                  break;
+              }
             }
-          }
-          if (med.timeOfDay?.includes('Mid-day') ) {
-            switch(i) {
-              case 0:
-                this.sunday.night.push(med.name);
-                break;
-              case 1:
-                this.monday.night.push(med.name);
-                break;
-              case 2: 
-                this.tuesday.night.push(med.name);
-                break;
-              case 3:
-                this.wednesday.night.push(med.name);
-                break;
-              case 4:
-                this.thursday.night.push(med.name);
-                break;
-              case 5:
-                this.friday.night.push(med.name);
-                break;
-              case 6:
-                this.saturday.night.push(med.name);
-                break;
+            if (med.timeOfDay?.includes('Mid-day') ) {
+              switch(i) {
+                case 0:
+                  this.sunday.night.push(med.name);
+                  break;
+                case 1:
+                  this.monday.night.push(med.name);
+                  break;
+                case 2:
+                  this.tuesday.night.push(med.name);
+                  break;
+                case 3:
+                  this.wednesday.night.push(med.name);
+                  break;
+                case 4:
+                  this.thursday.night.push(med.name);
+                  break;
+                case 5:
+                  this.friday.night.push(med.name);
+                  break;
+                case 6:
+                  this.saturday.night.push(med.name);
+                  break;
+                }
+              }
             }
           }
         }
       }
     }
-  }
 
   sortWeekly() {
-    for (let medication of this.weeklyMeds) {
-      if (medication.timeOfDay?.includes('Morning') ) {
-        switch(medication.day) {
-          case 'Sunday':
-            this.sunday.morning.push(medication.name);
-            break;
-          case 'Monday':
-            this.monday.morning.push(medication.name);
-            break;
-          case 'Tuesday': 
-            this.tuesday.morning.push(medication.name);
-            break;
-          case 'Wednesday':
-            this.wednesday.morning.push(medication.name);
-            break;
-          case 'Thursday':
-            this.thursday.morning.push(medication.name);
-            break;
-          case 'Friday':
-            this.friday.morning.push(medication.name);
-            break;
-          case 'Saturday':
-            this.saturday.morning.push(medication.name);
-            break;
+    if (this.weeklyMeds.length > 0) {
+      for (let medication of this.weeklyMeds) {
+        if (medication.timeOfDay?.includes('Morning') ) {
+          switch(medication.day) {
+            case 'Sunday':
+              this.sunday.morning.push(medication.name);
+              break;
+            case 'Monday':
+              this.monday.morning.push(medication.name);
+              break;
+            case 'Tuesday':
+              this.tuesday.morning.push(medication.name);
+              break;
+            case 'Wednesday':
+              this.wednesday.morning.push(medication.name);
+              break;
+            case 'Thursday':
+              this.thursday.morning.push(medication.name);
+              break;
+            case 'Friday':
+              this.friday.morning.push(medication.name);
+              break;
+            case 'Saturday':
+              this.saturday.morning.push(medication.name);
+              break;
+          }
         }
-      }
-      if (medication.timeOfDay?.includes('Mid-day') ) {
-        switch(medication.day) {
-          case 'Sunday':
-            this.sunday.midday.push(medication.name);
-            break;
-          case 'Monday':
-            this.monday.midday.push(medication.name);
-            break;
-          case 'Tuesday': 
-            this.tuesday.midday.push(medication.name);
-            break;
-          case 'Wednesday':
-            this.wednesday.midday.push(medication.name);
-            break;
-          case 'Thursday':
-            this.thursday.midday.push(medication.name);
-            break;
-          case 'Friday':
-            this.friday.midday.push(medication.name);
-            break;
-          case 'Saturday':
-            this.saturday.midday.push(medication.name);
-            break;
+        if (medication.timeOfDay?.includes('Mid-day') ) {
+          switch(medication.day) {
+            case 'Sunday':
+              this.sunday.midday.push(medication.name);
+              break;
+            case 'Monday':
+              this.monday.midday.push(medication.name);
+              break;
+            case 'Tuesday':
+              this.tuesday.midday.push(medication.name);
+              break;
+            case 'Wednesday':
+              this.wednesday.midday.push(medication.name);
+              break;
+            case 'Thursday':
+              this.thursday.midday.push(medication.name);
+              break;
+            case 'Friday':
+              this.friday.midday.push(medication.name);
+              break;
+            case 'Saturday':
+              this.saturday.midday.push(medication.name);
+              break;
+          }
         }
-      }
-      if (medication.timeOfDay?.includes('Evening') ) {
-        switch(medication.day) {
-          case 'Sunday':
-            this.sunday.evening.push(medication.name);
-            break;
-          case 'Monday':
-            this.monday.evening.push(medication.name);
-            break;
-          case 'Tuesday': 
-            this.tuesday.evening.push(medication.name);
-            break;
-          case 'Wednesday':
-            this.wednesday.evening.push(medication.name);
-            break;
-          case 'Thursday':
-            this.thursday.evening.push(medication.name);
-            break;
-          case 'Friday':
-            this.friday.evening.push(medication.name);
-            break;
-          case 'Saturday':
-            this.saturday.evening.push(medication.name);
-            break;
+        if (medication.timeOfDay?.includes('Evening') ) {
+          switch(medication.day) {
+            case 'Sunday':
+              this.sunday.evening.push(medication.name);
+              break;
+            case 'Monday':
+              this.monday.evening.push(medication.name);
+              break;
+            case 'Tuesday':
+              this.tuesday.evening.push(medication.name);
+              break;
+            case 'Wednesday':
+              this.wednesday.evening.push(medication.name);
+              break;
+            case 'Thursday':
+              this.thursday.evening.push(medication.name);
+              break;
+            case 'Friday':
+              this.friday.evening.push(medication.name);
+              break;
+            case 'Saturday':
+              this.saturday.evening.push(medication.name);
+              break;
+          }
         }
-      }
-      if (medication.timeOfDay?.includes('Night') ) {
-        switch(medication.day) {
-          case 'Sunday':
-            this.sunday.night.push(medication.name);
-            break;
-          case 'Monday':
-            this.monday.night.push(medication.name);
-            break;
-          case 'Tuesday': 
-            this.tuesday.night.push(medication.name);
-            break;
-          case 'Wednesday':
-            this.wednesday.night.push(medication.name);
-            break;
-          case 'Thursday':
-            this.thursday.night.push(medication.name);
-            break;
-          case 'Friday':
-            this.friday.night.push(medication.name);
-            break;
-          case 'Saturday':
-            this.saturday.night.push(medication.name);
-            break;
+        if (medication.timeOfDay?.includes('Night') ) {
+          switch(medication.day) {
+            case 'Sunday':
+              this.sunday.night.push(medication.name);
+              break;
+            case 'Monday':
+              this.monday.night.push(medication.name);
+              break;
+            case 'Tuesday':
+              this.tuesday.night.push(medication.name);
+              break;
+            case 'Wednesday':
+              this.wednesday.night.push(medication.name);
+              break;
+            case 'Thursday':
+              this.thursday.night.push(medication.name);
+              break;
+            case 'Friday':
+              this.friday.night.push(medication.name);
+              break;
+            case 'Saturday':
+              this.saturday.night.push(medication.name);
+              break;
+            }
+          }
         }
       }
     }
-  }
-  
+
 }

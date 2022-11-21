@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MedicationsModule } from './medications/medications.module';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatSlideToggleModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
@@ -20,7 +21,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    MedicationsModule
+    MedicationsModule,
+    MatSlideToggleModule,
   ],
   providers: [
     {
