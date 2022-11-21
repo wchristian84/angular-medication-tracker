@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
@@ -16,13 +16,13 @@ export class EditMedComponent implements OnInit {
   weekdays: string[] = [];
   dosingTimes: string[] = [];
 
-  editMedForm = new UntypedFormGroup({
+  editMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: new FormArray([]),
+    timeOfDay: new FormControl<string[]>([]),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),
@@ -54,14 +54,29 @@ export class EditMedComponent implements OnInit {
     this.dosingTimes = this.medicationsService.timesOfDay;
 
     this.route.params.subscribe((params: Params) =>
-    {this.idx = +params['index'];
+    { this.idx = +params['index'];
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
       this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
       this.isCurrent = true;
+      console.log(this.selectedMedication);
     } else {
       this.selectedMedication = this.medicationsService.getPastMed(this.idx);
     }
-  });
+
+    this.editMedForm.patchValue({
+      'name': this.selectedMedication.name,
+      'dosage': this.selectedMedication.dosage!,
+      'frequency': this.selectedMedication.frequency!,
+      'date': this.selectedMedication.date!,
+      'day': this.selectedMedication.day!,
+      'timeOfDay': this.selectedMedication.timeOfDay!,
+      'benefits': this.selectedMedication.benefits!,
+      'sideEffects': this.selectedMedication.sideEffects!,
+      'startDate': this.selectedMedication.startDate!,
+      'stopDate': this.selectedMedication.stopDate!,
+      'reasonStopped': this.selectedMedication.reasonStopped!
+      });
+    });
 
   }
 
