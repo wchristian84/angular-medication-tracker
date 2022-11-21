@@ -1,1 +1,6 @@
-<p>schedule works!</p>
+<div>
+  <p class="h3">Daily Meds:</p>
+  <div *ngFor="let item of dailyMeds">
+    <p>{{ item.name }}</p>
+  </div>
+</div>
