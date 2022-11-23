@@ -144,20 +144,20 @@ export class ScheduleComponent implements OnInit {
   sortDaily() {
     if (this.dailyMeds.length > 0){
       for (let medication of this.dailyMeds) {
-        if (medication.timeOfDay?.includes('Morning')) {
+        if (medication.timeOfDay?.Morning) {
           this.pushToAll('Morning', medication.name);
         }
 
-        if (medication.timeOfDay?.includes('Mid-day')) {
+        if (medication.timeOfDay?.Midday) {
           this.pushToAll('Mid-day', medication.name);
         }
 
-        if (medication.timeOfDay?.includes('Evening')) {
+        if (medication.timeOfDay?.Evening) {
           this.pushToAll('Evening', medication.name);
         }
 
-        if (medication.timeOfDay?.includes('Evening')) {
-          this.pushToAll('Evening', medication.name);
+        if (medication.timeOfDay?.Night) {
+          this.pushToAll('Night', medication.name);
         }
       }
     }
@@ -173,7 +173,7 @@ export class ScheduleComponent implements OnInit {
       for (let med of this.monthlyMeds) {
         for (let i = 0; i < 6; i++) {
           if (med.date == this.daysOfWeek[i].getDate()) {
-            if (med.timeOfDay?.includes('Morning') ) {
+            if (med.timeOfDay?.Morning) {
               switch(i) {
                 case 0:
                   this.sunday.morning.push(med.name);
@@ -198,7 +198,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.includes('Mid-day') ) {
+            if (med.timeOfDay?.Midday) {
               switch(i) {
                 case 0:
                   this.sunday.midday.push(med.name);
@@ -223,7 +223,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.includes('Mid-day') ) {
+            if (med.timeOfDay?.Evening) {
               switch(i) {
                 case 0:
                   this.sunday.evening.push(med.name);
@@ -248,7 +248,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.includes('Mid-day') ) {
+            if (med.timeOfDay?.Night) {
               switch(i) {
                 case 0:
                   this.sunday.night.push(med.name);
@@ -282,7 +282,7 @@ export class ScheduleComponent implements OnInit {
   sortWeekly() {
     if (this.weeklyMeds.length > 0) {
       for (let medication of this.weeklyMeds) {
-        if (medication.timeOfDay?.includes('Morning') ) {
+        if (medication.timeOfDay?.Morning) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.morning.push(medication.name);
@@ -307,7 +307,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.includes('Mid-day') ) {
+        if (medication.timeOfDay?.Midday) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.midday.push(medication.name);
@@ -332,7 +332,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.includes('Evening') ) {
+        if (medication.timeOfDay?.Evening) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.evening.push(medication.name);
@@ -357,7 +357,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.includes('Night') ) {
+        if (medication.timeOfDay?.Night) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.night.push(medication.name);
