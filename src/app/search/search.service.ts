@@ -55,7 +55,11 @@ export class SearchService {
         '',
         undefined,
         '',
-        [''],
+        { Morning: false,
+          Midday: false,
+          Evening: false,
+          Night: false
+        },
         '',
         '',
         '',

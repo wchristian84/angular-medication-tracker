@@ -57,14 +57,14 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="addMedForm.value.frequency">
+    <div *ngIf="addMedForm.value.frequency" [formGroup]="addMedForm.controls.timeOfDay">
       Times of day taken:
-      <div  class="form-group" *ngFor="let time of dosingTimes">
+      <div class="form-group" *ngFor="let time of dosingTimes">
         <input
         type="checkbox"
         value="{{ time }}"
         id="{{ time }}"
-        formArrayName="timeOfDay" />
+        formControlName="{{ time }}" />
         <label for="{{ time }}">{{ time }}</label>
       </div>
     </div>

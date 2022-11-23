@@ -5,7 +5,7 @@
     <div class="row"><p class="h6 col-md-2">Frequency: </p><p class="col-md-6">{{ selectedMedication.frequency }}</p></div><hr>
     <div class="row" *ngIf="selectedMedication.frequency == 'Monthly'"><p class="h6 col-md-2">Monthly Repeat Date: </p><p class="col-md-6">{{ selectedMedication.date }}</p></div><hr *ngIf="selectedMedication.frequency == 'Monthly'">
     <div class="row" *ngIf="selectedMedication.frequency == 'Weekly'"><p class="h6 col-md-2">Repeated On: </p><p class="col-md-6">{{ selectedMedication.day }}</p></div><hr *ngIf="selectedMedication.frequency == 'Weekly'">
-    <div class="row"><p class="h6 col-md-2">Time of Day: </p><p class="col-md-6">{{ selectedMedication.timeOfDay }}</p></div><hr>
+    <div class="row"><p class="h6 col-md-2">Time of Day: </p><div *ngFor="let time of selectedTimes"><p class="col-md-6">{{ time }}</p></div></div><hr>
     <div class="row"><p class="h6 col-md-2">Benefits: </p><p class="col-md-6">{{ selectedMedication.benefits }}</p></div><hr>
     <div class="row"><p class="h6 col-md-2">Side Effects: </p><p class="col-md-6">{{ selectedMedication.sideEffects }}</p></div><hr>
     <div class="row"><p class="h6 col-md-2">Medication Started: </p><p class="col-md-6">{{ selectedMedication.startDate }}</p></div><hr>

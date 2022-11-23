@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, Validators, FormControl, FormGroup, FormArray } from "@angular/forms";
-import { ActivatedRoute, Params } from '@angular/router';
+import { Validators, FormControl, FormGroup, FormArray, FormBuilder } from "@angular/forms";
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 
 import { Medication } from '../medications.model';
@@ -23,7 +23,7 @@ export class AddMedComponent implements OnInit {
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: new FormArray([]),
+    timeOfDay: this.createCheckbox(),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),
@@ -31,7 +31,12 @@ export class AddMedComponent implements OnInit {
     reasonStopped: new FormControl<string | null>(null),
   });
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private http: HttpService) { }
+  constructor(
+    private medicationsService: MedicationsService,
+    private route: ActivatedRoute,
+    private http: HttpService,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.frequencies = this.medicationsService.dosingFrequencies;
@@ -41,6 +46,15 @@ export class AddMedComponent implements OnInit {
     if (this.route.pathFromRoot.toString().includes('current-meds')) {
       this.isCurrent = true;
     };
+  }
+
+  createCheckbox(): FormGroup {
+    return this.formBuilder.group({
+      Morning: false,
+      Midday: false,
+      Evening: false,
+      Night: false
+    });
   }
 
   onFormSubmit(medForm: FormGroup) {
@@ -66,6 +80,7 @@ export class AddMedComponent implements OnInit {
     this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
     alert(`${medForm.value.name} saved!`);
     medForm.reset();
+    this.router.navigate(["../"], { relativeTo: this.route });
   }
 
 }

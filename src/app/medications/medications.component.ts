@@ -17,7 +17,12 @@ export class MedicationsComponent implements OnInit {
     frequency: '',
     date: undefined,
     day: '',
-    timeOfDay: [],
+    timeOfDay: {
+      Morning: false,
+      Midday: false,
+      Evening: false,
+      Night: false
+    },
     benefits: '',
     sideEffects: '',
     startDate: '',
@@ -26,8 +31,13 @@ export class MedicationsComponent implements OnInit {
   };
   idx: number = -1;
   isCurrent: boolean = false;
+  selectedTimes: string[] = [];
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router, private http: HttpService) { }
+  constructor(
+    private medicationsService: MedicationsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -40,6 +50,7 @@ export class MedicationsComponent implements OnInit {
         this.selectedMedication = this.medicationsService.getPastMed(this.idx);
       }
     });
+    this.getDosingTimes();
   }
 
   deleteMed(index: number) {
@@ -60,5 +71,18 @@ export class MedicationsComponent implements OnInit {
       this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
+  }
+
+  getDosingTimes() {
+    let doseTimes = Object.keys(this.selectedMedication.timeOfDay!);
+    let doseTimesValues = Object.values(this.selectedMedication.timeOfDay!);
+
+    for (let i = 0; i < doseTimes.length; i++) {
+      if (doseTimesValues[i] == true) {
+        this.selectedTimes.push(doseTimes[i]);
+      }
+
+    }
+
   }
 }

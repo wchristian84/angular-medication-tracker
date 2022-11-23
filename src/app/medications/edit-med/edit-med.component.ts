@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
@@ -15,6 +15,7 @@ export class EditMedComponent implements OnInit {
   frequencies: string[] = [];
   weekdays: string[] = [];
   dosingTimes: string[] = [];
+  selectedTimes: string[] = [];
 
   editMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
@@ -22,12 +23,7 @@ export class EditMedComponent implements OnInit {
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: new FormArray([
-      new FormControl<string>(''),
-      new FormControl<string>(''),
-      new FormControl<string>(''),
-      new FormControl<string>(''),
-    ]),
+    timeOfDay: this.createCheckbox(),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),
@@ -43,7 +39,12 @@ export class EditMedComponent implements OnInit {
     frequency: '',
     date: undefined,
     day: '',
-    timeOfDay: [],
+    timeOfDay: {
+      Morning: false,
+      Midday: false,
+      Evening: false,
+      Night: false
+    },
     benefits: '',
     sideEffects: '',
     startDate: '',
@@ -51,7 +52,12 @@ export class EditMedComponent implements OnInit {
     reasonStopped: ''
   };
 
-  constructor(private medicationsService: MedicationsService, private route: ActivatedRoute, private router: Router, private http: HttpService) { }
+  constructor(
+    private medicationsService: MedicationsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.frequencies = this.medicationsService.dosingFrequencies;
@@ -81,8 +87,19 @@ export class EditMedComponent implements OnInit {
       'stopDate': this.selectedMedication.stopDate!,
       'reasonStopped': this.selectedMedication.reasonStopped!
       });
+
+      console.log(this.editMedForm.value);
     });
 
+  }
+
+  createCheckbox(): FormGroup {
+    return this.formBuilder.group({
+      Morning: false,
+      Midday: false,
+      Evening: false,
+      Night: false
+    });
   }
 
   onFormSubmit(medForm: FormGroup) {
@@ -108,5 +125,17 @@ export class EditMedComponent implements OnInit {
     this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
     alert(`${this.editMedForm.value.name} updated!`);
     this.router.navigate(["../"], { relativeTo: this.route });
+  }
+
+  onCheck(medTime: string) {
+    if (this.selectedTimes.includes(medTime)) {
+      for (let i = 0; i < this.selectedTimes.length; i++) {
+        if (this.selectedTimes[i] == medTime) {
+          this.selectedTimes.splice(i, 1);
+        }
+      }
+    } else {
+      this.selectedTimes.push(medTime);
+    }
   }
 }

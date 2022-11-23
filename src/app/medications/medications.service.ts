@@ -29,10 +29,10 @@ export class MedicationsService {
   ]
 
   timesOfDay = [
-      'Morning',
-      'Mid-day',
-      'Evening',
-      "Night",
+    'Morning',
+    'Midday',
+    'Evening',
+    "Night",
   ]
 
 

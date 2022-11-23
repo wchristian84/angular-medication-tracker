@@ -30,7 +30,7 @@
       id="frequency"
       class="form-control"
       formControlName="frequency">
-        <option *ngFor="let frequency of frequencies">{{ frequency }}</option>
+        <option *ngFor="let frequency of frequencies" [selected]="this.selectedMedication.frequency">{{ frequency }}</option>
       </select>
     </div>
       <!-- Monthly Date -->
@@ -57,7 +57,7 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="editMedForm.value.frequency">
+    <div *ngIf="editMedForm.value.frequency" [formGroup]="editMedForm.controls.timeOfDay">
       <label>Times of day taken:</label>
         <div class="form-group" *ngFor="let time of dosingTimes">
           <input
@@ -65,7 +65,8 @@
           name="timeOfDay"
           value="{{ time }}"
           id="{{ time }}"
-          formArrayName="timeOfDay" />
+          [checked]="time"
+          formControlName="{{ time }}">
         <label for="{{ time }}">{{ time }}</label>
       </div>
     </div>
