@@ -11,10 +11,12 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" class="form-control" ngModel required minlength="6" />
       </div>
-      <!-- Buttons -->
-      <button class="btn btn-primary" type="submit" [disabled]="!authFormRef.valid">{{ isLoginMode ? 'Log In' : 'Register' }}</button>
-      |
-      <button class="btn btn-primary" type="button" (click)="onSwitchAuthMode()">Switch to {{ isLoginMode ? 'Register' : 'Log In' }}</button>
+      <div class="mt-3">
+        <!-- Buttons -->
+        <button class="btn btn-primary" type="submit" [disabled]="!authFormRef.valid">{{ isLoginMode ? 'Log In' : 'Register' }}</button>
+        |
+        <button class="btn btn-primary" type="button" (click)="onSwitchAuthMode()">Switch to {{ isLoginMode ? 'Register' : 'Log In' }}</button>
+      </div>
     </form>
     <p class='alert alert-danger mt-3' *ngIf="errMessage">{{ errMessage }}</p>
   </div>
