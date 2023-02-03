@@ -13,7 +13,7 @@ import { AuthComponent } from './shared/auth/auth.component';
 import { AuthGuard } from './shared/auth/auth.guard';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/current-meds', pathMatch: 'full'},
+  {path: '', redirectTo: '/auth', pathMatch: 'full'},
   {path: 'current-meds', component: CurrentMedsComponent, canActivate: [AuthGuard], children: [
     {path: 'add', component: AddMedComponent, pathMatch: 'full'},
     {path: ':index', component: MedicationsComponent},
