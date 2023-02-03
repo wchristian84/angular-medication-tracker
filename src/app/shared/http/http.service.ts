@@ -15,7 +15,7 @@ export class HttpService {
   constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
 
   fetchCurrentFromFirebase() {
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}currentMeds.json`, {})
+    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}/currentMeds.json`, {})
     .subscribe(meds => {
       if (meds === null) {
         this.medicationsService.currentMeds = [];
@@ -28,7 +28,7 @@ export class HttpService {
   }
 
   fetchPastFromFirebase() {
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}pastMeds.json`, {})
+    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}/pastMeds.json`, {})
       .subscribe(meds => {
         if (meds === null) {
           this.medicationsService.pastMeds = [];
