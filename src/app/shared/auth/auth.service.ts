@@ -38,7 +38,7 @@ export class AuthService {
     const storedUser = localStorage.getItem('userData');
     // Check for locally saved user data
     if (!storedUser) {
-      this.router.navigate(["/auth"]);
+      return;
     } else {
       const userData: UserData = JSON.parse(storedUser as string);
       console.log(userData);
