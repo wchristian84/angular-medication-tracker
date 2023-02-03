@@ -36,9 +36,11 @@ export class AuthService {
 
   automaticSignIn() {
     const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    console.log(userData);
     // Check for locally saved user data
-    if (!userData) return;
+    if (!userData) {
+      return;
+    } else {
+    console.log(userData);
     const { email, id, _token, _tokenExpirationDate } = userData;
     // If exists, set saved data to variables, add new token expiry
     const loadedUser = new User (
@@ -51,7 +53,7 @@ export class AuthService {
     if (loadedUser.token) {
       this.currentUser.next(loadedUser);
       this.router.navigate(['current-meds'])
-    }
+    }}
   }
 
   automaticSignOut(expDuration: number) {
