@@ -35,25 +35,27 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   automaticSignIn() {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const storedUser = localStorage.getItem('userData');
     // Check for locally saved user data
-    if (!userData) {
+    if (!storedUser) {
       return;
     } else {
-    console.log(userData);
-    const { email, id, _token, _tokenExpirationDate } = userData;
-    // If exists, set saved data to variables, add new token expiry
-    const loadedUser = new User (
-      email,
-      id,
-      _token,
-      new Date(_tokenExpirationDate)
-    );
-    // Emit user and redirect to current meds view
-    if (loadedUser.token) {
-      this.currentUser.next(loadedUser);
-      this.router.navigate(['current-meds'])
-    }}
+      const userData: UserData = JSON.parse(storedUser as string);
+      console.log(userData);
+      const { email, id, _token, _tokenExpirationDate } = userData;
+      // If exists, set saved data to variables, add new token expiry
+      const loadedUser = new User (
+        email,
+        id,
+        _token,
+        new Date(_tokenExpirationDate)
+      );
+      // Emit user and redirect to current meds view
+      if (loadedUser.token) {
+        this.currentUser.next(loadedUser);
+        this.router.navigate(['current-meds'])
+      }
+    }
   }
 
   automaticSignOut(expDuration: number) {
