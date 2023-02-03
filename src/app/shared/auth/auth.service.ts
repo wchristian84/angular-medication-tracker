@@ -53,7 +53,7 @@ export class AuthService {
       // Emit user and redirect to current meds view
       if (loadedUser.token) {
         this.currentUser.next(loadedUser);
-        this.router.navigate(['current-meds'])
+        this.router.navigate(['current-meds']);
       }
     }
   }
