@@ -38,14 +38,15 @@ export class AuthComponent implements OnInit {
           if (this.errMessage) this.errMessage = null;
 
           // Reroute to /current-meds on success
-          this.router.navigate(['current-meds']);
+          // this.router.navigate(['current-meds']);
         },
         (err) => {
           console.error("Auth Response Error: ", err);
           this.errMessage = err.message;
         }
       );
-
+    // Reroute to /current-meds on success
+    this.router.navigate(['current-meds']);
     formObj.reset();
 
 
