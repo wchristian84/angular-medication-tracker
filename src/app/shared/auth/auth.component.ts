@@ -37,16 +37,17 @@ export class AuthComponent implements OnInit {
           console.log('Auth Response Success: ', res);
           if (this.errMessage) this.errMessage = null;
 
-          // Reroute to /current-meds on success
-          // this.router.navigate(['current-meds']);
+          // Fetch meds and reroute to /current-meds on success
+          this.http.fetchCurrentFromFirebase();
+          this.http.fetchPastFromFirebase();
+          this.router.navigate(['current-meds']);
         },
         (err) => {
           console.error("Auth Response Error: ", err);
           this.errMessage = err.message;
         }
       );
-    // Reroute to /current-meds on success
-    this.router.navigate(['current-meds']);
+
     formObj.reset();
 
 
