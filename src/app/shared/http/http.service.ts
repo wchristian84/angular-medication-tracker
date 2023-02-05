@@ -9,13 +9,15 @@ import { UserData } from "../auth/auth.service";
   providedIn: 'root'
 })
 export class HttpService {
-  userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
   firebaseDatabaseURL = 'https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/';
 
   constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
 
   fetchCurrentFromFirebase() {
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}/currentMeds.json`, {})
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const thisUser = userData.id;
+    console.log("userData for fetch:", thisUser)
+    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/currentMeds.json`, {})
     .subscribe(meds => {
       if (meds === null) {
         this.medicationsService.currentMeds = [];
@@ -28,7 +30,9 @@ export class HttpService {
   }
 
   fetchPastFromFirebase() {
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${this.userData.id}/pastMeds.json`, {})
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const thisUser = userData.id;
+    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/pastMeds.json`, {})
       .subscribe(meds => {
         if (meds === null) {
           this.medicationsService.pastMeds = [];
@@ -48,7 +52,7 @@ export class HttpService {
         "pastMeds": pastMeds,
     }
 
-    this.http.patch(this.firebaseDatabaseURL, meds).subscribe(res => {
+    this.http.patch(`${this.firebaseDatabaseURL}${thisUser}/`, meds).subscribe(res => {
       console.log("Firebase DB Response:", res);
     });
   }

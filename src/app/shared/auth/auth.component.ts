@@ -37,9 +37,7 @@ export class AuthComponent implements OnInit {
           console.log('Auth Response Success: ', res);
           if (this.errMessage) this.errMessage = null;
 
-          // Fetch meds and reroute to /current-meds on success
-          this.http.fetchCurrentFromFirebase();
-          this.http.fetchPastFromFirebase();
+          // Reroute to /current-meds on success
           this.router.navigate(['current-meds']);
         },
         (err) => {
