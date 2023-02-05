@@ -77,6 +77,7 @@ export class AuthService {
     this.currentUser.next(formUser);
     // Save user in local storage
     localStorage.setItem('userData', JSON.stringify(formUser));
+    console.log("userData:", localStorage.getItem('userData'));
   }
 
   signIn(email: string, password: string) {
