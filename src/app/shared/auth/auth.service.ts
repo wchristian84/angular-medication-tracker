@@ -11,6 +11,8 @@ export interface AuthResponseData {
   kind: string;
   idToken: string;
   email: string;
+  firstName: string;
+  lastName: string;
   refreshToken: string;
   expiresIn: string;
   localId: string;
@@ -20,6 +22,8 @@ export interface AuthResponseData {
 export interface UserData {
   email: string;
   id: string;
+  firstName: string;
+  lastName: string;
   _token: string;
   _tokenExpirationDate: string;
 }
@@ -42,11 +46,13 @@ export class AuthService {
     } else {
       const userData: UserData = JSON.parse(storedUser as string);
       console.log(userData);
-      const { email, id, _token, _tokenExpirationDate } = userData;
+      const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
       // If exists, set saved data to variables, add new token expiry
       const loadedUser = new User (
         email,
         id,
+        firstName,
+        lastName,
         _token,
         new Date(_tokenExpirationDate)
       );
@@ -66,11 +72,11 @@ export class AuthService {
     }, expDuration);
   }
 
-  handleAuth(email: string, userId: string, token: string, expiresIn: number) {
+  handleAuth(email: string, userId: string, first: string, last: string, token: string, expiresIn: number) {
     // Set expiration for token
     const expDate = new Date(new Date().getTime() + expiresIn * 1000);
     //  Take in form info and create a new user based on it
-    const formUser = new User(email, userId, token, expDate);
+    const formUser = new User(email, userId, first, last, token, expDate);
     // Set new expiration timer for token
     this.automaticSignOut(expiresIn * 1000);
     // Emit new user
@@ -83,7 +89,7 @@ export class AuthService {
   signIn(email: string, password: string) {
     // Make post request to backend
     return this.http.post<AuthResponseData>(
-      environment.loginUrl + environment.authAPIKey,
+      `${environment.apiRoute}users/login`,
       {
         // Pass sign in data as object
         email,
@@ -93,9 +99,9 @@ export class AuthService {
     ).pipe(
       tap((response) => {
         // Destructure to access all response values
-        const { email, localId, idToken, expiresIn } = response;
+        const { email, localId, firstName, lastName, idToken, expiresIn } = response;
         // Pass response values to handleAuth method
-        this.handleAuth(email, localId, idToken, +expiresIn)
+        this.handleAuth(email, localId, firstName, lastName, idToken, +expiresIn)
         }
       )
     );
@@ -114,19 +120,21 @@ export class AuthService {
     this.router.navigate(['auth']);
   }
 
-  signUp(email: string, password: string) {
+  signUp(email: string, password: string, firstName: string, lastName: string) {
     // Make post request to backend
-    return this.http.post<AuthResponseData>(environment.signupUrl + environment.authAPIKey, {
+    return this.http.post<AuthResponseData>(`${environment.apiRoute}users/create/`, {
       // Pass registration data as object
       email,
       password,
+      firstName,
+      lastName,
       returnSecureToken: true
     }).pipe(
       tap((response) => {
         // Destructure to access all response values
-        const { email, localId, idToken, expiresIn } = response;
+        const { email, localId, firstName, lastName, idToken, expiresIn } = response;
         // Pass response values to handleAuth method
-        this.handleAuth(email, localId, idToken, +expiresIn)
+        this.handleAuth(email, localId, firstName, lastName, idToken, +expiresIn)
         }
       )
     );
