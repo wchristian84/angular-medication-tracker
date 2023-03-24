@@ -4,20 +4,18 @@ import { Injectable } from "@angular/core";
 import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
 import { UserData } from "../auth/auth.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  firebaseDatabaseURL = 'https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/';
+  databaseURL = `${environment.apiRoute}medications/`;
 
   constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
 
-  fetchCurrentFromFirebase() {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    console.log("userData for fetch:", thisUser)
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/currentMeds.json`, {})
+  fetchMedsFromDatabase() {
+    return this.http.get<Medication[]>(`${this.databaseURL}my_meds/`, {})
     .subscribe(meds => {
       if (meds === null) {
         this.medicationsService.currentMeds = [];
@@ -29,21 +27,6 @@ export class HttpService {
     });
   }
 
-  fetchPastFromFirebase() {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/pastMeds.json`, {})
-      .subscribe(meds => {
-        if (meds === null) {
-          this.medicationsService.pastMeds = [];
-        }
-        else {
-          this.medicationsService.updatePastArray(meds);
-          console.log('response from DB: ', meds);
-        }
-      });
-  }
-
   saveMedsToFirebase(currentMeds: Medication[], pastMeds: Medication[]) {
     const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
     const thisUser = userData.id;
@@ -52,8 +35,8 @@ export class HttpService {
         "pastMeds": pastMeds,
     }
 
-    this.http.patch(`${this.firebaseDatabaseURL}${thisUser}/`, meds).subscribe(res => {
-      console.log("Firebase DB Response:", res);
+    this.http.patch(`${this.databaseURL}edit/`, meds).subscribe(res => {
+      console.log("DB Response:", res);
     });
   }
 
