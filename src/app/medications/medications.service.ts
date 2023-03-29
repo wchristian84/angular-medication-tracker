@@ -36,64 +36,34 @@ export class MedicationsService {
   ]
 
 
-  currentMeds: Medication[] = [ // array for holding current medications
-  ];
-
-  pastMeds: Medication[] = [// array for holding discontinued medications
-  ];
+  medications = []
 
   constructor() { }
 
-  addCurrentMed (medication: Medication) {
+  addMed (medication: Medication) {
     // receive medication object from form and add to currentMeds array
     this.currentMeds.push(medication);
     // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
+    this.medListChanged.next(this.medications.slice());
   }
 
-  addPreviousMed (medication: Medication) {
-    // receive medication object from form and add to pastMeds array
-    this.pastMeds.push(medication);
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  deleteCurrentMed (index: number) {
+  deleteMed (index: number) {
     // get array index from template and splice it from currentMeds array
     this.currentMeds.splice(index, 1);
     // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
+    this.medListChanged.next(this.medications.slice());
   }
 
-  deletePreviousMed (index: number) {
-    // get array index from template and splice it from pastMeds array
-    this.pastMeds.splice(index, 1);
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  editCurrentMed (index: number, medication: Medication) {
+  editMed (index: number, medication: Medication) {
     // get array index and set item to updated values
     this.currentMeds[index] = medication;
     // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
+    this.medListChanged.next(this.medications.slice());
   }
 
-  editPreviousMed (index: number, medication: Medication) {
-    // get array index and set item to updated values
-    this.pastMeds[index] = medication;
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  getCurrentMed (index: number) {
+  getMed (index: number) {
     // Find correct medication in array and return values
-    return this.currentMeds.slice()[index];
-  }
-
-  getPastMed (index: number) {
-    // Find correct medication in array and return values
-    return this.pastMeds.slice()[index];
+    return this.medications.slice()[index];
   }
 
   moveToPastMeds (currentMedsIndex: number, medication: Medication) {

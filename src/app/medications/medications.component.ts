@@ -12,7 +12,9 @@ import { MedicationsService } from './medications.service';
 })
 export class MedicationsComponent implements OnInit {
   selectedMedication: Medication = {
+    id: -1,
     name: '',
+    isCurrent: false,
     dosage: '',
     frequency: '',
     date: undefined,
@@ -29,8 +31,6 @@ export class MedicationsComponent implements OnInit {
     stopDate: '',
     reasonStopped: ''
   };
-  idx: number = -1;
-  isCurrent: boolean = false;
   selectedTimes: string[] = [];
 
   constructor(
@@ -40,35 +40,20 @@ export class MedicationsComponent implements OnInit {
     private http: HttpService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.idx = +params['index'];
-
-      if (this.route.pathFromRoot.toString().includes('current-meds')) {
-        this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
-        this.isCurrent = true;
-      } else {
-        this.selectedMedication = this.medicationsService.getPastMed(this.idx);
-      }
-    });
     this.getDosingTimes();
   }
 
-  deleteMed(index: number) {
+  deleteMed(id: number) {
     if (confirm(`Are you sure you want to delete ${this.selectedMedication.name}?`)) {
-      if (this.isCurrent) {
-        this.medicationsService.deleteCurrentMed(index);
-      } else {
-        this.medicationsService.deletePreviousMed(index);
-      }
-      this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+      this.http.deleteFromDatabase(id);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 
-  endMedication(index: number, stoppedMed: Medication) {
+  endMedication(stoppedMed: Medication) {
     if (confirm(`Move ${stoppedMed.name} to Previous Medications?`)) {
-      this.medicationsService.moveToPastMeds(index, stoppedMed);
-      this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+      this.medicationsService.moveToPastMeds(stoppedMed);
+      this.http.saveEditsToDatabase(stoppedMed);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
   }

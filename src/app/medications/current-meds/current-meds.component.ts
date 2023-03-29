@@ -20,7 +20,7 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
     this.currentMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
       this.currentMedications = data;
     });
-    this.http.fetchCurrentFromFirebase();
+    this.http.fetchMedsFromDatabase();
   }
 
   ngOnDestroy(): void {

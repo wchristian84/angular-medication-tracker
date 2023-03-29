@@ -22,7 +22,7 @@ export class PastMedsComponent implements OnInit, OnDestroy {
     this.pastMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
       this.pastMedications = data;
     });
-    this.http.fetchPastFromFirebase();
+    this.http.fetchMedsFromDatabase();
   }
 
   ngOnDestroy(): void {

@@ -14,8 +14,12 @@ export class HttpService {
 
   constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
 
+  deleteFromDatabase(id: number) {
+
+  }
+
   fetchMedsFromDatabase() {
-    return this.http.get<Medication[]>(`${this.databaseURL}my_meds/`, {})
+    return this.http.get<Medication[]>(`${this.databaseURL}get/`, {})
     .subscribe(meds => {
       if (meds === null) {
         this.medicationsService.currentMeds = [];
@@ -27,15 +31,14 @@ export class HttpService {
     });
   }
 
-  saveMedsToFirebase(currentMeds: Medication[], pastMeds: Medication[]) {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    const meds = {
-        "currentMeds": currentMeds,
-        "pastMeds": pastMeds,
-    }
+  saveEditsToDatabase(editedMed: Medication) {
+    this.http.patch(`${this.databaseURL}edit/`, editedMed).subscribe(res => {
+      console.log("DB Response:", res);
+    });
+  }
 
-    this.http.patch(`${this.databaseURL}edit/`, meds).subscribe(res => {
+  saveNewToDatabase(newMed: Medication) {
+    this.http.put(`${this.databaseURL}new/`, newMed).subscribe(res => {
       console.log("DB Response:", res);
     });
   }

@@ -11,7 +11,6 @@ import { MedicationsService } from '../medications.service';
   styleUrls: ['./edit-med.component.css']
 })
 export class EditMedComponent implements OnInit {
-  isCurrent: boolean = false;
   frequencies: string[] = [];
   weekdays: string[] = [];
   dosingTimes: string[] = [];
@@ -19,6 +18,7 @@ export class EditMedComponent implements OnInit {
 
   editMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
+    isCurrent: new FormControl<boolean | undefined>(undefined, Validators.required),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
@@ -31,10 +31,12 @@ export class EditMedComponent implements OnInit {
     reasonStopped: new FormControl<string | null>(null),
   });
 
-  idx: number = -1;
+  idx = -1;
 
   selectedMedication: Medication = {
+    id: -1,
     name: '',
+    isCurrent: false,
     dosage: '',
     frequency: '',
     date: undefined,
@@ -66,16 +68,12 @@ export class EditMedComponent implements OnInit {
 
     this.route.params.subscribe((params: Params) =>
     { this.idx = +params['index'];
-    if (this.route.pathFromRoot.toString().includes('current-meds')) {
-      this.selectedMedication = this.medicationsService.getCurrentMed(this.idx);
-      this.isCurrent = true;
-      console.log(this.selectedMedication);
-    } else {
-      this.selectedMedication = this.medicationsService.getPastMed(this.idx);
-    }
+      this.selectedMedication = this.medicationsService.getMed(this.idx)
+    console.log(this.selectedMedication);
 
     this.editMedForm.patchValue({
       'name': this.selectedMedication.name,
+      'isCurrent': this.selectedMedication.isCurrent,
       'dosage': this.selectedMedication.dosage!,
       'frequency': this.selectedMedication.frequency!,
       'date': this.selectedMedication.date!,
@@ -105,6 +103,7 @@ export class EditMedComponent implements OnInit {
   onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
       medForm.value.name,
+      medForm.value.isCurrent,
       medForm.value.dosage,
       medForm.value.frequency,
       medForm.value.date,
@@ -117,12 +116,7 @@ export class EditMedComponent implements OnInit {
       medForm.value.reasonStopped
       );
 
-    if (this.isCurrent) {
-      this.medicationsService.editCurrentMed(this.idx, newMed);
-    } else {
-      this.medicationsService.editPreviousMed(this.idx, newMed);
-    }
-    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+    this.http.saveMedsToDatabase(newMed);
     alert(`${this.editMedForm.value.name} updated!`);
     this.router.navigate(["../"], { relativeTo: this.route });
   }

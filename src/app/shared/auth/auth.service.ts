@@ -8,20 +8,31 @@ import { environment } from "src/environments/environment";
 import { User } from "./user.model";
 
 export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
+  success: boolean;
+  payload: {
+    user: {
+      id: number;
+      email: string;
+      first_name: string;
+      last_name: string;
+      name: string;
+      token: {
+        id: number;
+        created_at: string;
+        expiry: string;
+        ip: string;
+        revocation_date: string;
+        updated_at: string;
+        user_id: number;
+        value: string;
+      };
+    };
+  };
 }
 
 export interface UserData {
   email: string;
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   _token: string;
@@ -72,7 +83,7 @@ export class AuthService {
     }, expDuration);
   }
 
-  handleAuth(email: string, userId: string, first: string, last: string, token: string, expiresIn: number) {
+  handleAuth(email: string, userId: number, first: string, last: string, token: string, expiresIn: number) {
     // Set expiration for token
     const expDate = new Date(new Date().getTime() + expiresIn * 1000);
     //  Take in form info and create a new user based on it
@@ -99,9 +110,13 @@ export class AuthService {
     ).pipe(
       tap((response) => {
         // Destructure to access all response values
-        const { email, localId, firstName, lastName, idToken, expiresIn } = response;
+        const { success, payload } = response;
+        // Calculate time until expiration
+        let expiresAt = new Date(response.payload.user.token.revocation_date).getTime
+        let now = new Date(response.payload.user.token.created_at).getTime
+        let expiresIn = +expiresAt - +now
         // Pass response values to handleAuth method
-        this.handleAuth(email, localId, firstName, lastName, idToken, +expiresIn)
+        this.handleAuth(email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn)
         }
       )
     );
@@ -132,9 +147,13 @@ export class AuthService {
     }).pipe(
       tap((response) => {
         // Destructure to access all response values
-        const { email, localId, firstName, lastName, idToken, expiresIn } = response;
+        const { success, payload } = response;
+        // Calculate time until expiration
+        let expiresAt = new Date(response.payload.user.token.revocation_date).getTime
+        let now = new Date(response.payload.user.token.created_at).getTime
+        let expiresIn = +expiresAt - +now
         // Pass response values to handleAuth method
-        this.handleAuth(email, localId, firstName, lastName, idToken, +expiresIn)
+        this.handleAuth(payload.user.email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn)
         }
       )
     );

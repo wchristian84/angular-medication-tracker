@@ -12,13 +12,13 @@ import { MedicationsService } from '../medications.service';
   styleUrls: ['./add-med.component.css']
 })
 export class AddMedComponent implements OnInit {
-  isCurrent: boolean = false;
   frequencies: string[] = [];
   weekdays: string[] = [];
   dosingTimes: string[] = [];
 
   addMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
+    isCurrent: new FormControl<boolean>(false),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
@@ -42,10 +42,6 @@ export class AddMedComponent implements OnInit {
     this.frequencies = this.medicationsService.dosingFrequencies;
     this.weekdays = this.medicationsService.daysOfWeek;
     this.dosingTimes = this.medicationsService.timesOfDay;
-
-    if (this.route.pathFromRoot.toString().includes('current-meds')) {
-      this.isCurrent = true;
-    };
   }
 
   createCheckbox(): FormGroup {
@@ -60,6 +56,7 @@ export class AddMedComponent implements OnInit {
   onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
       medForm.value.name,
+      medForm.value.isCurrent,
       medForm.value.dosage,
       medForm.value.frequency,
       medForm.value.date,
@@ -72,12 +69,7 @@ export class AddMedComponent implements OnInit {
       medForm.value.reasonStopped
       );
 
-    if (this.route.pathFromRoot.toString().includes('current-meds')) {
-      this.medicationsService.addCurrentMed(newMed);
-    } else {
-      this.medicationsService.addPreviousMed(newMed);
-    }
-    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+    this.http.saveMedsToDatabase(newMed);
     alert(`${medForm.value.name} saved!`);
     medForm.reset();
     this.router.navigate(["../"], { relativeTo: this.route });

@@ -22,6 +22,18 @@
       formControlName="dosage"
       />
     </div>
+    <!-- Set if Current -->
+    <div class="form-group">
+      <label for="isCurrent">Currently Taking?</label>
+      <select
+      name="isCurrent"
+      id="isCurrent"
+      class="form-control"
+      formControlName="isCurrent">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </div>
     <!-- Dosing Frequency -->
     <div class="form-group">
       <label for="frequency">Dosing Frequency:</label>
@@ -104,7 +116,7 @@
       />
     </div>
     <!-- End Date -->
-    <div class="form-group" *ngIf="!isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.isCurrent">
       <label for="stop-date">Date Stopped:</label>
       <input
       type="text"
@@ -115,7 +127,7 @@
       />
     </div>
     <!-- Reason Med Stopped -->
-    <div class="form-group" *ngIf="!isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.isCurrent">
       <label for="reason">Reason Stopped Taking:</label>
       <textarea
         rows="5"

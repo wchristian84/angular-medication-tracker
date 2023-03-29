@@ -1,6 +1,8 @@
 export class Medication {
   constructor(
+    public id: number,
     public name: string,
+    public isCurrent: boolean,
     public dosage?: string,
     public frequency?: string,
     public date?: number,
