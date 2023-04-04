@@ -19,12 +19,10 @@ export class MedicationsComponent implements OnInit {
     frequency: '',
     date: undefined,
     day: '',
-    timeOfDay: {
-      Morning: false,
-      Midday: false,
-      Evening: false,
-      Night: false
-    },
+    morning: false,
+    midday: false,
+    evening: false,
+    night: false,
     benefits: '',
     sideEffects: '',
     startDate: '',
@@ -40,11 +38,12 @@ export class MedicationsComponent implements OnInit {
     private http: HttpService) { }
 
   ngOnInit(): void {
-    this.getDosingTimes();
+    // this.getDosingTimes();
   }
 
   deleteMed(id: number) {
     if (confirm(`Are you sure you want to delete ${this.selectedMedication.name}?`)) {
+
       this.http.deleteFromDatabase(id);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
@@ -52,22 +51,22 @@ export class MedicationsComponent implements OnInit {
 
   endMedication(stoppedMed: Medication) {
     if (confirm(`Move ${stoppedMed.name} to Previous Medications?`)) {
-      this.medicationsService.moveToPastMeds(stoppedMed);
+      stoppedMed.isCurrent = false;
       this.http.saveEditsToDatabase(stoppedMed);
       this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 
-  getDosingTimes() {
-    let doseTimes = Object.keys(this.selectedMedication.timeOfDay!);
-    let doseTimesValues = Object.values(this.selectedMedication.timeOfDay!);
+  // getDosingTimes() {
+  //   let doseTimes = Object.keys(this.selectedMedication.timeOfDay!);
+  //   let doseTimesValues = Object.values(this.selectedMedication.timeOfDay!);
 
-    for (let i = 0; i < doseTimes.length; i++) {
-      if (doseTimesValues[i] == true) {
-        this.selectedTimes.push(doseTimes[i]);
-      }
+  //   for (let i = 0; i < doseTimes.length; i++) {
+  //     if (doseTimesValues[i] == true) {
+  //       this.selectedTimes.push(doseTimes[i]);
+  //     }
 
-    }
+  //   }
 
-  }
+  // }
 }

@@ -18,7 +18,6 @@ export class PastMedsComponent implements OnInit, OnDestroy {
   constructor(private medicationsService: MedicationsService, private http: HttpService) { }
 
   ngOnInit(): void {
-    this.pastMedications = this.medicationsService.pastMeds;
     this.pastMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
       this.pastMedications = data;
     });

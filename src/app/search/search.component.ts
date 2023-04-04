@@ -29,18 +29,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onAddCurrent(medication: Medication) {
-    this.medicationsService.addCurrentMed(medication);
-    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
+    this.medicationsService.addMed(medication);
+    this.http.saveNewToDatabase(medication);
     alert(`${medication.name} saved to Current Medications.`);
     this.router.navigate(['/current-meds'], { relativeTo: this.route });
-
-  }
-
-  onAddPrevious(medication: Medication) {
-    this.medicationsService.addPreviousMed(medication);
-    this.http.saveMedsToFirebase(this.medicationsService.currentMeds, this.medicationsService.pastMeds);
-    alert(`${medication.name} saved to Previous Medications.`);
-    this.router.navigate(['/past-meds'], { relativeTo: this.route });
   }
 
   ngOnDestroy(): void {

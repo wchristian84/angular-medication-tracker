@@ -7,12 +7,10 @@ export class Medication {
     public frequency?: string,
     public date?: number,
     public day?: string,
-    public timeOfDay?: {
-      Morning: boolean,
-      Midday: boolean,
-      Evening: boolean,
-      Night: boolean
-    },
+    public morning?: boolean,
+    public midday?: boolean,
+    public evening?: boolean,
+    public night?: boolean,
     public benefits?: string,
     public sideEffects?: string,
     public startDate?: string,

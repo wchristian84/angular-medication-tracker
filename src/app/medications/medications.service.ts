@@ -36,57 +36,58 @@ export class MedicationsService {
   ]
 
 
-  medications = []
+  medications: Medication[] = [];
 
   constructor() { }
 
   addMed (medication: Medication) {
     // receive medication object from form and add to currentMeds array
-    this.currentMeds.push(medication);
+    this.medications.push(medication);
     // send subscription update
     this.medListChanged.next(this.medications.slice());
   }
 
-  deleteMed (index: number) {
-    // get array index from template and splice it from currentMeds array
-    this.currentMeds.splice(index, 1);
-    // send subscription update
-    this.medListChanged.next(this.medications.slice());
-  }
+  // deleteMed (index: number) {
+  //   // get array index from template and splice it from currentMeds array
+  //   this.currentMeds.splice(index, 1);
+  //   // send subscription update
+  //   this.medListChanged.next(this.medications.slice());
+  // }
 
-  editMed (index: number, medication: Medication) {
-    // get array index and set item to updated values
-    this.currentMeds[index] = medication;
-    // send subscription update
-    this.medListChanged.next(this.medications.slice());
-  }
+  // editMed (index: number, medication: Medication) {
+  //   // get array index and set item to updated values
+  //   this.currentMeds[index] = medication;
+  //   // send subscription update
+  //   this.medListChanged.next(this.medications.slice());
+  // }
 
-  getMed (index: number) {
+  getMed (med_id: number) {
     // Find correct medication in array and return values
-    return this.medications.slice()[index];
+    let chosenMed: Medication | undefined = this.medications.find(med => med.id == med_id);
+    return chosenMed;
   }
 
-  moveToPastMeds (currentMedsIndex: number, medication: Medication) {
-    // get index in currentMeds array from template to splice object out
-    this.currentMeds.splice(currentMedsIndex, 1);
+  // moveToPastMeds (currentMedsIndex: number, medication: Medication) {
+  //   // get index in currentMeds array from template to splice object out
+  //   this.currentMeds.splice(currentMedsIndex, 1);
 
-    // push medication object onto pastMeds array
-    this.pastMeds.push(medication);
+  //   // push medication object onto pastMeds array
+  //   this.pastMeds.push(medication);
 
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-    this.medListChanged.next(this.currentMeds.slice());
-  }
+  //   // send subscription update
+  //   this.medListChanged.next(this.pastMeds.slice());
+  //   this.medListChanged.next(this.currentMeds.slice());
+  // }
 
-  updateCurrentArray(meds: Medication[]) {
-    this.currentMeds = meds;
-    // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
-  }
+  // updateCurrentArray(meds: Medication[]) {
+  //   this.currentMeds = meds;
+  //   // send subscription update
+  //   this.medListChanged.next(this.currentMeds.slice());
+  // }
 
-  updatePastArray(meds: Medication[]) {
-    this.pastMeds = meds;
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
+  // updatePastArray(meds: Medication[]) {
+  //   this.pastMeds = meds;
+  //   // send subscription update
+  //   this.medListChanged.next(this.pastMeds.slice());
+  // }
 }

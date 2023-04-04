@@ -50,16 +50,17 @@ export class SearchService {
 
       // Set available values from API call after formatting
       let newProd = new Medication(
+        0,
         `${brandName}(${genericName})`,
+        true,
         dosage,
         '',
         undefined,
         '',
-        { Morning: false,
-          Midday: false,
-          Evening: false,
-          Night: false
-        },
+        false,
+        false,
+        false,
+        false,
         '',
         '',
         '',

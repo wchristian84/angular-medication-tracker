@@ -12,13 +12,18 @@ import { MedicationsService } from '../medications.service';
 export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
   currentMedications: Medication[] = [];
+  userSubscription = new Subscription;
 
   constructor(private medicationsService: MedicationsService, private http: HttpService) { }
 
   ngOnInit(): void {
     // this.currentMedications = this.medicationsService.currentMeds;
     this.currentMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
-      this.currentMedications = data;
+      for (let med of data) {
+        if (med.isCurrent) {
+          this.currentMedications.push(med)
+        }
+      }
     });
     this.http.fetchMedsFromDatabase();
   }

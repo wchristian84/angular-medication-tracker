@@ -18,12 +18,15 @@ export class EditMedComponent implements OnInit {
 
   editMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
-    isCurrent: new FormControl<boolean | undefined>(undefined, Validators.required),
+    isCurrent: new FormControl<boolean>(false, Validators.required),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: this.createCheckbox(),
+    morning: new FormControl<boolean>(false),
+    midday: new FormControl<boolean>(false),
+    evening: new FormControl<boolean>(false),
+    night: new FormControl<boolean>(false),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),
@@ -39,14 +42,12 @@ export class EditMedComponent implements OnInit {
     isCurrent: false,
     dosage: '',
     frequency: '',
-    date: undefined,
+    date: 0,
     day: '',
-    timeOfDay: {
-      Morning: false,
-      Midday: false,
-      Evening: false,
-      Night: false
-    },
+    morning: false,
+    midday: false,
+    evening: false,
+    night: false,
     benefits: '',
     sideEffects: '',
     startDate: '',
@@ -67,8 +68,11 @@ export class EditMedComponent implements OnInit {
     this.dosingTimes = this.medicationsService.timesOfDay;
 
     this.route.params.subscribe((params: Params) =>
-    { this.idx = +params['index'];
-      this.selectedMedication = this.medicationsService.getMed(this.idx)
+    { this.idx = +params['id'];
+      let getMed = this.medicationsService.getMed(this.idx)
+      if (getMed != undefined) {
+        this.selectedMedication = getMed
+      }
     console.log(this.selectedMedication);
 
     this.editMedForm.patchValue({
@@ -78,7 +82,10 @@ export class EditMedComponent implements OnInit {
       'frequency': this.selectedMedication.frequency!,
       'date': this.selectedMedication.date!,
       'day': this.selectedMedication.day!,
-      'timeOfDay': this.selectedMedication.timeOfDay!,
+      'morning': this.selectedMedication.morning!,
+      'midday': this.selectedMedication.midday!,
+      'evening': this.selectedMedication.evening!,
+      'night': this.selectedMedication.night!,
       'benefits': this.selectedMedication.benefits!,
       'sideEffects': this.selectedMedication.sideEffects!,
       'startDate': this.selectedMedication.startDate!,
@@ -116,7 +123,7 @@ export class EditMedComponent implements OnInit {
       medForm.value.reasonStopped
       );
 
-    this.http.saveMedsToDatabase(newMed);
+    this.http.saveEditsToDatabase(newMed);
     alert(`${this.editMedForm.value.name} updated!`);
     this.router.navigate(["../"], { relativeTo: this.route });
   }
