@@ -30,8 +30,8 @@
       id="isCurrent"
       class="form-control"
       formControlName="isCurrent">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="true" [selected]="this.selectedMedication.isCurrent">Yes</option>
+        <option value="false" [selected]="this.selectedMedication.isCurrent">No</option>
       </select>
     </div>
     <!-- Dosing Frequency -->
@@ -69,17 +69,45 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="editMedForm.value.frequency" [formGroup]="editMedForm.controls.timeOfDay">
+    <div *ngIf="editMedForm.value.frequency">
       <label>Times of day taken:</label>
-        <div class="form-group" *ngFor="let time of dosingTimes">
-          <input
+      <!-- Morning -->
+      <div class="form-group">
+        <input
           type="checkbox"
-          name="timeOfDay"
-          value="{{ time }}"
-          id="{{ time }}"
-          [checked]="time"
-          formControlName="{{ time }}">
-        <label for="{{ time }}">{{ time }}</label>
+          name="morning"
+          value="morning"
+          id="morning"
+          [checked]="this.selectedMedication.morning"
+          formControlName="morning">
+        <label for="morning">Morning</label>
+        <!-- Mid-day -->
+        <input
+          type="checkbox"
+          name="midday"
+          value="midday"
+          id="midday"
+          [checked]="this.selectedMedication.midday"
+          formControlName="midday">
+        <label for="midday">Mid-day</label>
+        <!-- Evening -->
+        <input
+          type="checkbox"
+          name="evening"
+          value="evening"
+          id="evening"
+          [checked]="this.selectedMedication.evening"
+          formControlName="evening">
+        <label for="evening">Evening</label>
+        <!-- Night -->
+        <input
+          type="checkbox"
+          name="night"
+          value="night"
+          id="night"
+          [checked]="this.selectedMedication.night"
+          formControlName="night">
+        <label for="night">Night</label>
       </div>
     </div>
     <!-- Noted Health Benefits -->

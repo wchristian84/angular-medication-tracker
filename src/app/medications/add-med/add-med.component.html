@@ -69,15 +69,41 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="addMedForm.value.frequency" [formGroup]="addMedForm.controls.timeOfDay">
+    <div *ngIf="addMedForm.value.frequency">
       Times of day taken:
-      <div class="form-group" *ngFor="let time of dosingTimes">
+      <!-- Morning -->
+      <div class="form-group">
         <input
-        type="checkbox"
-        value="{{ time }}"
-        id="{{ time }}"
-        formControlName="{{ time }}" />
-        <label for="{{ time }}">{{ time }}</label>
+          type="checkbox"
+          name="morning"
+          value="morning"
+          id="morning"
+          formControlName="morning">
+        <label for="morning">Morning</label>
+        <!-- Mid-day -->
+        <input
+          type="checkbox"
+          name="midday"
+          value="midday"
+          id="midday"
+          formControlName="midday">
+        <label for="midday">Mid-day</label>
+        <!-- Evening -->
+        <input
+          type="checkbox"
+          name="evening"
+          value="evening"
+          id="evening"
+          formControlName="evening">
+        <label for="evening">Evening</label>
+        <!-- Night -->
+        <input
+          type="checkbox"
+          name="night"
+          value="night"
+          id="night"
+          formControlName="night">
+        <label for="night">Night</label>
       </div>
     </div>
     <!-- Noted Health Benefits -->

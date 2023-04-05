@@ -1,10 +1,37 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
+import { tap } from "rxjs/operators";
 import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
 import { UserData } from "../auth/auth.service";
 import { environment } from "src/environments/environment";
+
+export interface ResponseData{
+  success: boolean,
+  payload: MedicationResponseData[]
+}
+
+export interface MedicationResponseData{
+  id: number,
+  name: string,
+  dosage: string | null,
+  frequency: string | null,
+  date: number | null,
+  day: string | null,
+  benefits: string | null,
+  side_effects: string | null,
+  start_date: string | null,
+  stop_date: string | null,
+  reason_stopped: string | null,
+  is_current: boolean,
+  created_at: string,
+  updated_at: string,
+  morning: boolean | null,
+  midday: boolean | null,
+  evening: boolean | null,
+  night: boolean | null,
+  user_id: number
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,16 +53,36 @@ export class HttpService {
   }
 
   fetchMedsFromDatabase() {
-    return this.http.get<Medication[]>(`${this.databaseURL}get/`, {})
-    .subscribe(meds => {
-      if (meds === null) {
+    return this.http.get<ResponseData>(`${this.databaseURL}get/`, {})
+    .pipe(tap((res) => {
+      if (res.payload === null) {
         this.medicationsService.medications = [];
       }
       else {
-        this.medicationsService.medications = meds;
-        console.log('response from DB: ', meds);
+        for (let med of res.payload) {
+          let restructuredMed = new Medication(
+            med.id,
+            med.name,
+            med.is_current,
+            med.dosage,
+            med.frequency,
+            med.date,
+            med.day,
+            med.morning,
+            med.midday,
+            med.evening,
+            med.night,
+            med.benefits,
+            med.side_effects,
+            med.start_date,
+            med.stop_date,
+            med.reason_stopped,
+          )
+          this.medicationsService.medications.push(restructuredMed);
+        }
+        console.log('response from DB: ', res);
       }
-    });
+    }));
   }
 
   saveEditsToDatabase(editedMed: Medication) {

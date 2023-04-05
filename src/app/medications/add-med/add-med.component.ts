@@ -18,12 +18,15 @@ export class AddMedComponent implements OnInit {
 
   addMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
-    isCurrent: new FormControl<boolean>(false),
+    isCurrent: new FormControl<boolean>(false, Validators.required),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
     day: new FormControl<string | null>(null),
-    timeOfDay: this.createCheckbox(),
+    morning: new FormControl<boolean>(false),
+    midday: new FormControl<boolean>(false),
+    evening: new FormControl<boolean>(false),
+    night: new FormControl<boolean>(false),
     benefits: new FormControl<string | null>(null),
     sideEffects: new FormControl<string | null>(null),
     startDate: new FormControl<string | null>(null),
@@ -44,24 +47,28 @@ export class AddMedComponent implements OnInit {
     this.dosingTimes = this.medicationsService.timesOfDay;
   }
 
-  createCheckbox(): FormGroup {
-    return this.formBuilder.group({
-      Morning: false,
-      Midday: false,
-      Evening: false,
-      Night: false
-    });
-  }
+  // createCheckbox(): FormGroup {
+  //   return this.formBuilder.group({
+  //     Morning: false,
+  //     Midday: false,
+  //     Evening: false,
+  //     Night: false
+  //   });
+  // }
 
   onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
+      0,
       medForm.value.name,
       medForm.value.isCurrent,
       medForm.value.dosage,
       medForm.value.frequency,
       medForm.value.date,
       medForm.value.day,
-      medForm.value.timeOfDay,
+      medForm.value.morning,
+      medForm.value.midday,
+      medForm.value.evening,
+      medForm.value.night,
       medForm.value.benefits,
       medForm.value.sideEffects,
       medForm.value.startDate,
@@ -69,7 +76,7 @@ export class AddMedComponent implements OnInit {
       medForm.value.reasonStopped
       );
 
-    this.http.saveMedsToDatabase(newMed);
+    this.http.saveNewToDatabase(newMed);
     alert(`${medForm.value.name} saved!`);
     medForm.reset();
     this.router.navigate(["../"], { relativeTo: this.route });

@@ -98,14 +98,14 @@ export class EditMedComponent implements OnInit {
 
   }
 
-  createCheckbox(): FormGroup {
-    return this.formBuilder.group({
-      Morning: false,
-      Midday: false,
-      Evening: false,
-      Night: false
-    });
-  }
+  // createCheckbox(): FormGroup {
+  //   return this.formBuilder.group({
+  //     Morning: false,
+  //     Midday: false,
+  //     Evening: false,
+  //     Night: false
+  //   });
+  // }
 
   onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
@@ -115,7 +115,10 @@ export class EditMedComponent implements OnInit {
       medForm.value.frequency,
       medForm.value.date,
       medForm.value.day,
-      medForm.value.timeOfDay,
+      medForm.value.morning,
+      medForm.value.midday,
+      medForm.value.evening,
+      medForm.value.night,
       medForm.value.benefits,
       medForm.value.sideEffects,
       medForm.value.startDate,
@@ -128,15 +131,15 @@ export class EditMedComponent implements OnInit {
     this.router.navigate(["../"], { relativeTo: this.route });
   }
 
-  onCheck(medTime: string) {
-    if (this.selectedTimes.includes(medTime)) {
-      for (let i = 0; i < this.selectedTimes.length; i++) {
-        if (this.selectedTimes[i] == medTime) {
-          this.selectedTimes.splice(i, 1);
-        }
-      }
-    } else {
-      this.selectedTimes.push(medTime);
-    }
-  }
+  // onCheck(medTime: string) {
+  //   if (this.selectedTimes.includes(medTime)) {
+  //     for (let i = 0; i < this.selectedTimes.length; i++) {
+  //       if (this.selectedTimes[i] == medTime) {
+  //         this.selectedTimes.splice(i, 1);
+  //       }
+  //     }
+  //   } else {
+  //     this.selectedTimes.push(medTime);
+  //   }
+  // }
 }
