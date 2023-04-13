@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { HttpService } from 'src/app/shared/http/http.service';
+
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 
@@ -12,20 +12,14 @@ import { MedicationsService } from '../medications.service';
 export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
   currentMedications: Medication[] = [];
-  userSubscription = new Subscription;
 
-  constructor(private medicationsService: MedicationsService, private http: HttpService) { }
+  constructor(private medicationsService: MedicationsService) { }
 
   ngOnInit(): void {
-    // this.currentMedications = this.medicationsService.currentMeds;
-    this.currentMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
-      for (let med of data) {
-        if (med.isCurrent) {
-          this.currentMedications.push(med)
-        }
-      }
+    this.currentMedSubscription = this.medicationsService.currentMedListChanged.subscribe(res => {
+      console.log("current sub response: ", res);
+      this.currentMedications = res;
     });
-    this.http.fetchMedsFromDatabase();
   }
 
   ngOnDestroy(): void {

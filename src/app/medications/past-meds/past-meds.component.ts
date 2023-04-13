@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { HttpService } from 'src/app/shared/http/http.service';
 
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
@@ -13,15 +12,14 @@ import { MedicationsService } from '../medications.service';
 export class PastMedsComponent implements OnInit, OnDestroy {
   pastMedSubscription = new Subscription;
   pastMedications: Medication[] = [];
-  isDisplaying: boolean = false;
 
-  constructor(private medicationsService: MedicationsService, private http: HttpService) { }
+  constructor(private medicationsService: MedicationsService) { }
 
   ngOnInit(): void {
-    this.pastMedSubscription = this.medicationsService.medListChanged.subscribe(data => {
-      this.pastMedications = data;
-    });
-    this.http.fetchMedsFromDatabase();
+    this.pastMedSubscription = this.medicationsService.pastMedListChanged.subscribe(res => {
+      console.log("past sub response: ", res);
+      this.pastMedications = res;
+    })
   }
 
   ngOnDestroy(): void {

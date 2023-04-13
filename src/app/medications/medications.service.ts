@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Subject } from "rxjs";
-
+import { ActivatedRoute } from '@angular/router';
 
 import { Medication } from './medications.model';
+import { HttpService } from '../shared/http/http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicationsService {
-  medListChanged = new Subject<Medication[]>();
+  currentMedListChanged = new Subject<Medication[]>();
+  pastMedListChanged = new Subject<Medication[]>();
   medSelected = new Subject<Medication>();
+
   dosingFrequencies = [
     '',
     'Monthly',
@@ -36,58 +39,63 @@ export class MedicationsService {
   ]
 
 
-  medications: Medication[] = [];
+  allMeds: Medication[] = [];
+  currentMeds: Medication[] = [];
+  pastMeds: Medication[] = [];
 
-  constructor() { }
+  constructor(private http:HttpService, private route:ActivatedRoute) { }
 
   addMed (medication: Medication) {
-    // receive medication object from form and add to currentMeds array
-    this.medications.push(medication);
-    // send subscription update
-    this.medListChanged.next(this.medications.slice());
+    // receive medication object from form and save to db
+    this.http.saveNewToDatabase(medication).subscribe(res => {
+      if (res.payload[0].is_current) {
+        this.currentMeds.push(res.payload[0]);
+        this.allMeds.push(res.payload[0]);
+        this.currentMedListChanged.next(this.currentMeds.slice());
+      } else {
+        this.pastMeds.push(res.payload[0]);
+        this.allMeds.push(res.payload[0]);
+        this.pastMedListChanged.next(this.pastMeds.slice());
+      }
+    });
   }
-
-  // deleteMed (index: number) {
-  //   // get array index from template and splice it from currentMeds array
-  //   this.currentMeds.splice(index, 1);
-  //   // send subscription update
-  //   this.medListChanged.next(this.medications.slice());
-  // }
-
-  // editMed (index: number, medication: Medication) {
-  //   // get array index and set item to updated values
-  //   this.currentMeds[index] = medication;
-  //   // send subscription update
-  //   this.medListChanged.next(this.medications.slice());
-  // }
 
   getMed (med_id: number) {
-    // Find correct medication in array and return values
-    let chosenMed: Medication | undefined = this.medications.find(med => med.id == med_id);
-    return chosenMed;
+        // Find correct medication in array and return values
+    if (this.route.pathFromRoot.toString().includes("current-meds")) {
+      let chosenMed: Medication | undefined = this.currentMeds.find(med => med.id == med_id);
+      console.log('chosenMed: ', chosenMed);
+      this.medSelected.next(chosenMed);
+    } else {
+      let chosenMed: Medication | undefined = this.pastMeds.find(med => med.id == med_id);
+      console.log('chosenMed: ', chosenMed);
+      this.medSelected.next(chosenMed);
+    }
   }
 
-  // moveToPastMeds (currentMedsIndex: number, medication: Medication) {
-  //   // get index in currentMeds array from template to splice object out
-  //   this.currentMeds.splice(currentMedsIndex, 1);
+  sortMedications(meds: Medication[]) {
+    for (let med of meds) {
+      if (med.is_current) {
+        this.currentMeds.push(med);
+        console.log("currentMeds: ", this.currentMeds);
+      } else {
+        this.pastMeds.push(med);
+        console.log("pastMeds: ", this.pastMeds);
+      }
+    }
+    // send subscription update
+    console.log("current meds slice: ", this.currentMeds.slice());
+    this.currentMedListChanged.next(this.currentMeds.slice());
+    console.log("past meds slice: ", this.pastMeds.slice());
+    this.pastMedListChanged.next(this.pastMeds.slice());
+  }
 
-  //   // push medication object onto pastMeds array
-  //   this.pastMeds.push(medication);
-
-  //   // send subscription update
-  //   this.medListChanged.next(this.pastMeds.slice());
-  //   this.medListChanged.next(this.currentMeds.slice());
-  // }
-
-  // updateCurrentArray(meds: Medication[]) {
-  //   this.currentMeds = meds;
-  //   // send subscription update
-  //   this.medListChanged.next(this.currentMeds.slice());
-  // }
-
-  // updatePastArray(meds: Medication[]) {
-  //   this.pastMeds = meds;
-  //   // send subscription update
-  //   this.medListChanged.next(this.pastMeds.slice());
-  // }
+  updateMedications() {
+    // this.medications = [];
+    this.http.fetchMedsFromDatabase().subscribe(res => {
+      console.log("response: ", res);
+      this.allMeds = res.payload;
+      this.sortMedications(this.allMeds);
+    });
+  }
 }

@@ -24,14 +24,14 @@
     </div>
     <!-- Set if Current -->
     <div class="form-group">
-      <label for="isCurrent">Currently Taking?</label>
+      <label for="is_current">Currently Taking?</label>
       <select
-      name="isCurrent"
-      id="isCurrent"
+      name="is_current"
+      id="is_current"
       class="form-control"
-      formControlName="isCurrent">
-        <option value="true" [selected]="this.selectedMedication.isCurrent">Yes</option>
-        <option value="false" [selected]="this.selectedMedication.isCurrent">No</option>
+      formControlName="is_current">
+        <option value="true" [selected]="this.selectedMedication.is_current">Yes</option>
+        <option value="false" [selected]="this.selectedMedication.is_current">No</option>
       </select>
     </div>
     <!-- Dosing Frequency -->
@@ -127,9 +127,9 @@
       <textarea
         rows="5"
         name="side-effects"
-        id="sideEffects"
+        id="side_effects"
         class="form-control"
-        formControlName="sideEffects">
+        formControlName="side_effects">
       </textarea>
     </div>
     <!-- Start Date -->
@@ -138,31 +138,31 @@
       <input
       type="text"
       name="start-date"
-      id="startDate"
+      id="start_date"
       class="form-control"
-      formControlName="startDate"
+      formControlName="start_date"
       />
     </div>
     <!-- End Date -->
-    <div class="form-group" *ngIf="!editMedForm.value.isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.is_current">
       <label for="stop-date">Date Stopped:</label>
       <input
       type="text"
       name="stop-date"
-      id="stopDate"
+      id="stop_date"
       class="form-control"
-      formControlName="stopDate"
+      formControlName="stop_date"
       />
     </div>
     <!-- Reason Med Stopped -->
-    <div class="form-group" *ngIf="!editMedForm.value.isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.is_current">
       <label for="reason">Reason Stopped Taking:</label>
       <textarea
         rows="5"
         name="reason"
-        id="reasonStopped"
+        id="reason_stopped"
         class="form-control"
-        formControlName="reasonStopped">
+        formControlName="reason_stopped">
         >
       </textarea>
     </div>

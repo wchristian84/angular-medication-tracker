@@ -18,7 +18,7 @@ export class EditMedComponent implements OnInit {
 
   editMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
-    isCurrent: new FormControl<boolean>(false, Validators.required),
+    is_current: new FormControl<boolean>(false, Validators.required),
     dosage: new FormControl<string | null>(null),
     frequency: new FormControl<string | null>(null),
     date: new FormControl<number | null>(null),
@@ -28,10 +28,10 @@ export class EditMedComponent implements OnInit {
     evening: new FormControl<boolean>(false),
     night: new FormControl<boolean>(false),
     benefits: new FormControl<string | null>(null),
-    sideEffects: new FormControl<string | null>(null),
-    startDate: new FormControl<string | null>(null),
-    stopDate: new FormControl<string | null>(null),
-    reasonStopped: new FormControl<string | null>(null),
+    side_effects: new FormControl<string | null>(null),
+    start_date: new FormControl<string | null>(null),
+    stop_date: new FormControl<string | null>(null),
+    reason_stopped: new FormControl<string | null>(null),
   });
 
   idx = -1;
@@ -39,7 +39,7 @@ export class EditMedComponent implements OnInit {
   selectedMedication: Medication = {
     id: -1,
     name: '',
-    isCurrent: false,
+    is_current: false,
     dosage: '',
     frequency: '',
     date: 0,
@@ -49,10 +49,10 @@ export class EditMedComponent implements OnInit {
     evening: false,
     night: false,
     benefits: '',
-    sideEffects: '',
-    startDate: '',
-    stopDate: '',
-    reasonStopped: ''
+    side_effects: '',
+    start_date: '',
+    stop_date: '',
+    reason_stopped: ''
   };
 
   constructor(
@@ -77,7 +77,7 @@ export class EditMedComponent implements OnInit {
 
     this.editMedForm.patchValue({
       'name': this.selectedMedication.name,
-      'isCurrent': this.selectedMedication.isCurrent,
+      'is_current': this.selectedMedication.is_current,
       'dosage': this.selectedMedication.dosage!,
       'frequency': this.selectedMedication.frequency!,
       'date': this.selectedMedication.date!,
@@ -87,10 +87,10 @@ export class EditMedComponent implements OnInit {
       'evening': this.selectedMedication.evening!,
       'night': this.selectedMedication.night!,
       'benefits': this.selectedMedication.benefits!,
-      'sideEffects': this.selectedMedication.sideEffects!,
-      'startDate': this.selectedMedication.startDate!,
-      'stopDate': this.selectedMedication.stopDate!,
-      'reasonStopped': this.selectedMedication.reasonStopped!
+      'side_effects': this.selectedMedication.side_effects!,
+      'start_date': this.selectedMedication.start_date!,
+      'stop_date': this.selectedMedication.stop_date!,
+      'reason_stopped': this.selectedMedication.reason_stopped!
       });
 
       console.log(this.editMedForm.value);
@@ -110,7 +110,7 @@ export class EditMedComponent implements OnInit {
   onFormSubmit(medForm: FormGroup) {
      let newMed = new Medication(
       medForm.value.name,
-      medForm.value.isCurrent,
+      medForm.value.is_current,
       medForm.value.dosage,
       medForm.value.frequency,
       medForm.value.date,
@@ -120,10 +120,10 @@ export class EditMedComponent implements OnInit {
       medForm.value.evening,
       medForm.value.night,
       medForm.value.benefits,
-      medForm.value.sideEffects,
-      medForm.value.startDate,
-      medForm.value.stopDate,
-      medForm.value.reasonStopped
+      medForm.value.side_effects,
+      medForm.value.start_date,
+      medForm.value.stop_date,
+      medForm.value.reason_stopped
       );
 
     this.http.saveEditsToDatabase(newMed);

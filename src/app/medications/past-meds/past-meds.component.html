@@ -4,9 +4,9 @@
 <div class='container'>
   <div class="row">
     <div class="col-md-4">
-      <ol class="list-group" *ngIf="pastMedications.length >= 1; else elseBlock">
-        <li class="list-group-item" *ngFor="let medication of pastMedications, let i = index">
-          <a routerLink='/past-meds/{{i}}' routerLinkActive="active">{{medication.name}} {{medication.dosage}}</a>
+      <ol class="list-group" *ngIf="pastMedications.length > 0; else elseBlock">
+        <li class="list-group-item" *ngFor="let medication of pastMedications">
+          <a routerLink='/past-meds/{{medication.id}}' routerLinkActive="active">{{medication.name}} {{medication.dosage}}</a>
         </li>
       </ol>
       <ng-template #elseBlock><h3>No previous medications to display.</h3></ng-template>

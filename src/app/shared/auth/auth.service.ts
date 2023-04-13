@@ -6,6 +6,7 @@ import { tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 
 import { User } from "./user.model";
+import { MedicationsService } from "src/app/medications/medications.service";
 
 export interface AuthResponseData {
   success: boolean;
@@ -47,7 +48,7 @@ export class AuthService {
   userToken = null;
   private tokenExpTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private medicationService: MedicationsService) {}
 
   automaticSignIn() {
     const storedUser = localStorage.getItem('userData');
@@ -70,6 +71,7 @@ export class AuthService {
       // Emit user and redirect to current meds view
       if (loadedUser.token) {
         this.currentUser.next(loadedUser);
+        this.medicationService.updateMedications();
         this.router.navigate(['current-meds']);
       }
     }
@@ -89,7 +91,7 @@ export class AuthService {
     //  Take in form info and create a new user based on it
     const formUser = new User(email, userId, first, last, token, expDate);
     // Set new expiration timer for token
-    this.automaticSignOut(expiresIn * 1000);
+    this.automaticSignOut(expiresIn);
     // Emit new user
     this.currentUser.next(formUser);
     // Save user in local storage
@@ -111,12 +113,16 @@ export class AuthService {
       tap((response) => {
         // Destructure to access all response values
         const { success, payload } = response;
+        console.log("response: ", response);
         // Calculate time until expiration
-        let expiresAt = new Date(response.payload.user.token.revocation_date).getTime
-        let now = new Date(response.payload.user.token.created_at).getTime
-        let expiresIn = +expiresAt - +now
+        let expiresAt = new Date(response.payload.user.token.expiry).getTime();
+        console.log("expiresAt: ", expiresAt);
+        let now = new Date(response.payload.user.token.created_at).getTime();
+        console.log("now: ", now);
+        let expiresIn = +expiresAt - +now;
+        console.log("expiresIn: ", expiresIn);
         // Pass response values to handleAuth method
-        this.handleAuth(email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn)
+        this.handleAuth(email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn);
         }
       )
     );

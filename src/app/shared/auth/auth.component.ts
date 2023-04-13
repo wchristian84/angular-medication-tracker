@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpService } from '../http/http.service';
 import { AuthResponseData, AuthService } from './auth.service';
+import { MedicationsService } from 'src/app/medications/medications.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +16,7 @@ export class AuthComponent implements OnInit {
   authObsrv: Observable<AuthResponseData> | undefined;
   errMessage = null;
 
-  constructor(private authService: AuthService, private router: Router, private http: HttpService) { }
+  constructor(private authService: AuthService, private router: Router, private medicationService: MedicationsService) { }
 
   ngOnInit(): void {
     this.authService.automaticSignIn();
@@ -38,6 +39,7 @@ export class AuthComponent implements OnInit {
           if (this.errMessage) this.errMessage = null;
 
           // Reroute to /current-meds on success
+          this.medicationService.updateMedications();
           this.router.navigate(['current-meds']);
         },
         (err) => {

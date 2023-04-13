@@ -16,13 +16,13 @@ const routes: Routes = [
   {path: '', redirectTo: '/current-meds', pathMatch: 'full'},
   {path: 'current-meds', component: CurrentMedsComponent, canActivate: [AuthGuard], children: [
     {path: 'add', component: AddMedComponent, pathMatch: 'full'},
-    {path: ':index', component: MedicationsComponent},
-    {path: ':index/edit', component: EditMedComponent}
+    {path: ':id', component: MedicationsComponent},
+    {path: ':id/edit', component: EditMedComponent}
   ]},
   {path: 'past-meds', component: PastMedsComponent, canActivate: [AuthGuard], children: [
     {path: 'add', component: AddMedComponent, pathMatch: 'full'},
-    {path: ':index', component: MedicationsComponent},
-    {path: ':index/edit', component: EditMedComponent}
+    {path: ':id', component: MedicationsComponent},
+    {path: ':id/edit', component: EditMedComponent}
   ]},
   {path: 'schedule', component: ScheduleComponent, canActivate: [AuthGuard]},
   {path: 'search', component: SearchComponent, canActivate: [AuthGuard]},

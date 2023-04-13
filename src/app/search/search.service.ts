@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http'
 import { Medication } from "../medications/medications.model";
 import { Subject } from "rxjs";
+import { MedicationsService } from "../medications/medications.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SearchService {
   allResults: Medication[] = [];
   resultsChanged = new Subject<Medication[]>();
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private medicationService: MedicationsService){}
 
   getResults() {
     return this.allResults.slice();
@@ -50,7 +51,6 @@ export class SearchService {
 
       // Set available values from API call after formatting
       let newProd = new Medication(
-        0,
         `${brandName}(${genericName})`,
         true,
         dosage,

@@ -1,8 +1,7 @@
 export class Medication {
   constructor(
-    public id: number | null,
     public name: string,
-    public isCurrent: boolean,
+    public is_current: boolean,
     public dosage?: string | null,
     public frequency?: string | null,
     public date?: number | null,
@@ -12,9 +11,11 @@ export class Medication {
     public evening?: boolean | null,
     public night?: boolean | null,
     public benefits?: string | null,
-    public sideEffects?: string | null,
-    public startDate?: string | null,
-    public stopDate?: string | null,
-    public reasonStopped?: string | null
+    public side_effects?: string | null,
+    public start_date?: string | null,
+    public stop_date?: string | null,
+    public reason_stopped?: string | null,
+    public id?: number,
+    public user_id?: number | null
     ) {}
 }
