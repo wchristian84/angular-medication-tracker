@@ -1,7 +1,7 @@
 <div>
-  <table class="table table-bordered">
+  <table class="table table-striped table-bordered">
     <thead>
-      <tr>
+      <tr class="text-center">
         <th scope="col"></th>
         <th scope="col">Sunday</th>
         <th scope="col">Monday</th>
@@ -17,212 +17,212 @@
       <!-- Morning Row -->
         <th scope="row">Morning</th>
           <td>
-            <ul *ngFor="let med of sunday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of sunday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of monday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of monday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of tuesday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of tuesday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of wednesday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+            <li *ngFor="let med of wednesday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of thursday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of thursday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of friday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of friday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
           <td>
-            <ul *ngFor="let med of saturday.morning">
-              <li>
+            <ol class="list-unstyled text-center">
+              <li *ngFor="let med of saturday.morning">
                 {{ med }}
               </li>
-            </ul>
+            </ol>
           </td>
       </tr>
       <tr>
       <!-- Mid-Day Row -->
         <th scope="row">Mid-Day</th>
         <td>
-          <ul *ngFor="let med of sunday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of sunday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of monday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of monday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of tuesday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of tuesday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of wednesday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of wednesday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of thursday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of thursday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of friday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of friday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of saturday.midday">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of saturday.midday">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
       </tr>
       <tr>
       <!-- Evening Row -->
         <th scope="row">Evening</th>
         <td>
-          <ul *ngFor="let med of sunday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of sunday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of monday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of monday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of tuesday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of tuesday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of wednesday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of wednesday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of thursday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of thursday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of friday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of friday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of saturday.evening">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of saturday.evening">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
       </tr>
       <tr>
       <!--Night Row -->
         <th scope="row">Night</th>
         <td>
-          <ul *ngFor="let med of sunday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of sunday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of monday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of monday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of tuesday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of tuesday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of wednesday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of wednesday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of thursday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of thursday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of friday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of friday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
         <td>
-          <ul *ngFor="let med of saturday.night">
-            <li>
+          <ol class="list-unstyled text-center">
+            <li *ngFor="let med of saturday.night">
               {{ med }}
             </li>
-          </ul>
+          </ol>
         </td>
       </tr>
     </tbody>
