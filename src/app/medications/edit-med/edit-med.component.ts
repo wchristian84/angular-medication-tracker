@@ -97,34 +97,24 @@ export class EditMedComponent implements OnInit {
 
       console.log(this.editMedForm.value);
     });
-
   }
 
-  // createCheckbox(): FormGroup {
-  //   return this.formBuilder.group({
-  //     Morning: false,
-  //     Midday: false,
-  //     Evening: false,
-  //     Night: false
-  //   });
-  // }
-
   onFormSubmit(medForm: FormGroup) {
-      this.selectedMedication.name = medForm.value.name;
-      this.selectedMedication.is_current = medForm.value.is_current;
-      this.selectedMedication.dosage = medForm.value.dosage;
-      this.selectedMedication.frequency = medForm.value.frequency;
-      this.selectedMedication.date = medForm.value.date;
-      this.selectedMedication.day = medForm.value.day;
-      this.selectedMedication.morning = medForm.value.morning;
-      this.selectedMedication.midday = medForm.value.midday;
-      this.selectedMedication.evening = medForm.value.evening;
-      this.selectedMedication.night = medForm.value.night;
-      this.selectedMedication.benefits = medForm.value.benefits;
-      this.selectedMedication.side_effects = medForm.value.side_effects;
-      this.selectedMedication.start_date = medForm.value.start_date;
-      this.selectedMedication.stop_date = medForm.value.stop_date;
-      this.selectedMedication.reason_stopped = medForm.value.reason_stopped;
+    this.selectedMedication.name = medForm.value.name;
+    this.selectedMedication.is_current = medForm.value.is_current;
+    this.selectedMedication.dosage = medForm.value.dosage;
+    this.selectedMedication.frequency = medForm.value.frequency;
+    this.selectedMedication.date = medForm.value.date;
+    this.selectedMedication.day = medForm.value.day;
+    this.selectedMedication.morning = medForm.value.morning;
+    this.selectedMedication.midday = medForm.value.midday;
+    this.selectedMedication.evening = medForm.value.evening;
+    this.selectedMedication.night = medForm.value.night;
+    this.selectedMedication.benefits = medForm.value.benefits;
+    this.selectedMedication.side_effects = medForm.value.side_effects;
+    this.selectedMedication.start_date = medForm.value.start_date;
+    this.selectedMedication.stop_date = medForm.value.stop_date;
+    this.selectedMedication.reason_stopped = medForm.value.reason_stopped;
 
     this.http.saveEditsToDatabase(this.selectedMedication).subscribe(res => {
       if (res.success) {
@@ -133,16 +123,4 @@ export class EditMedComponent implements OnInit {
 
     this.router.navigate(["../../"], { relativeTo: this.route });
   }
-
-  // onCheck(medTime: string) {
-  //   if (this.selectedTimes.includes(medTime)) {
-  //     for (let i = 0; i < this.selectedTimes.length; i++) {
-  //       if (this.selectedTimes[i] == medTime) {
-  //         this.selectedTimes.splice(i, 1);
-  //       }
-  //     }
-  //   } else {
-  //     this.selectedTimes.push(medTime);
-  //   }
-  // }
 }

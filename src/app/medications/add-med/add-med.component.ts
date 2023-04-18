@@ -91,6 +91,7 @@ export class AddMedComponent implements OnInit {
           title: `${medForm.value.name} saved!`
         })
         medForm.reset();
+        this.medicationsService.updateMedications();
         this.router.navigate(["../"], { relativeTo: this.route });
       } else {
         Swal.fire({

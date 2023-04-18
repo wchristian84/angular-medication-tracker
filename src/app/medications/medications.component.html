@@ -18,13 +18,7 @@
     </div>
     <hr *ngIf="selectedMedication.frequency == 'Weekly'">
     <div class="row">
-      <p class="h6 col-md-2">Time of Day: </p>
-      <ul>
-        <li *ngIf="selectedMedication.morning" class="mx-5">Morning</li>
-        <li *ngIf="selectedMedication.midday" class="mx-5">Mid-day</li>
-        <li *ngIf="selectedMedication.evening" class="mx-5">Evening</li>
-        <li *ngIf="selectedMedication.night" class="mx-5">Night</li>
-      </ul>
+      <p class="h6 col-md-2">Time of Day: </p><p class="col-md-6">{{selectedTimes.join(", ")}}</p>
     </div>
     <hr>
     <div class="row">

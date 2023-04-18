@@ -26,7 +26,7 @@ export class PastMedsComponent implements OnInit, OnDestroy {
 
   displayMed(id: number){
     this.medicationsService.getMed(id);
-    this.router.navigate(['id'], { relativeTo: this.route });
+    this.router.navigate([id], { relativeTo: this.route });
   }
 
   ngOnDestroy(): void {
