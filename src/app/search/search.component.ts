@@ -32,7 +32,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   onAddCurrent(medication: Medication) {
     medication.is_current = true;
     this.medicationsService.addMed(medication);
-    this.http.saveNewToDatabase(medication);
     Swal.fire(`${medication.name} saved to Current Medications.`);
     this.router.navigate(['/current-meds'], { relativeTo: this.route });
   }
@@ -40,7 +39,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   onAddPrevious(medication: Medication) {
     medication.is_current = false;
     this.medicationsService.addMed(medication);
-    this.http.saveNewToDatabase(medication);
     Swal.fire(`${medication.name} saved to Previous Medications.`);
     this.router.navigate(['/past-meds'], { relativeTo: this.route });
   }
