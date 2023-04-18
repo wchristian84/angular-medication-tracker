@@ -12,6 +12,7 @@ export class MedicationsService {
   currentMedListChanged = new Subject<Medication[]>();
   pastMedListChanged = new Subject<Medication[]>();
   medSelected = new Subject<Medication>();
+  selectedMed!: Medication;
 
   dosingFrequencies = [
     '',
@@ -48,32 +49,24 @@ export class MedicationsService {
   addMed (medication: Medication) {
     // receive medication object from form and save to db
     this.http.saveNewToDatabase(medication).subscribe(res => {
-      if (res.payload[0].is_current) {
-        this.currentMeds.push(res.payload[0]);
-        this.allMeds.push(res.payload[0]);
-        this.currentMedListChanged.next(this.currentMeds.slice());
-      } else {
-        this.pastMeds.push(res.payload[0]);
-        this.allMeds.push(res.payload[0]);
-        this.pastMedListChanged.next(this.pastMeds.slice());
+      if (res.success) {
+        this.updateMedications();
       }
     });
   }
 
   getMed (med_id: number) {
         // Find correct medication in array and return values
-    if (this.route.pathFromRoot.toString().includes("current-meds")) {
-      let chosenMed: Medication | undefined = this.currentMeds.find(med => med.id == med_id);
+      let chosenMed: Medication | undefined = this.allMeds.find(({id}) => id === med_id);
       console.log('chosenMed: ', chosenMed);
+      this.selectedMed = chosenMed!;
       this.medSelected.next(chosenMed);
-    } else {
-      let chosenMed: Medication | undefined = this.pastMeds.find(med => med.id == med_id);
-      console.log('chosenMed: ', chosenMed);
-      this.medSelected.next(chosenMed);
-    }
   }
 
   sortMedications(meds: Medication[]) {
+    this.currentMeds = [];
+    this.pastMeds = [];
+
     for (let med of meds) {
       if (med.is_current) {
         this.currentMeds.push(med);
@@ -84,14 +77,11 @@ export class MedicationsService {
       }
     }
     // send subscription update
-    console.log("current meds slice: ", this.currentMeds.slice());
     this.currentMedListChanged.next(this.currentMeds.slice());
-    console.log("past meds slice: ", this.pastMeds.slice());
     this.pastMedListChanged.next(this.pastMeds.slice());
   }
 
   updateMedications() {
-    // this.medications = [];
     this.http.fetchMedsFromDatabase().subscribe(res => {
       console.log("response: ", res);
       this.allMeds = res.payload;

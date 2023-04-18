@@ -11,6 +11,11 @@ export interface ResponseData{
   payload: Medication[]
 }
 
+export interface DeleteResponse{
+  success: boolean,
+  payload: any
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,9 +30,7 @@ export class HttpService {
       med_id: med_id,
       user_id: this.user.id
     };
-    this.http.delete(`${this.databaseURL}delete`, {body: body}).subscribe(res => {
-      console.log("delete response: ", res)
-    });
+    return this.http.delete<DeleteResponse>(`${this.databaseURL}delete`, {body: body});
   }
 
   fetchMedsFromDatabase() {
@@ -54,9 +57,7 @@ export class HttpService {
       night: editedMed.night,
       user_id: this.user.id
     };
-    this.http.patch(`${this.databaseURL}edit/`, body).subscribe(res => {
-      console.log("DB Response:", res);
-    });
+    return this.http.patch<ResponseData>(`${this.databaseURL}edit/`, body);
   }
 
   saveNewToDatabase(newMed: Medication) {

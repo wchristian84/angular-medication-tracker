@@ -1,28 +1,30 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-between mb-5">
-  <a class="navbar-brand mx-3">Easy Med Tracker</a>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav" *ngIf="isAuthenticated">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/current-meds" routerLinkActive="active">Current Medications</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/past-meds" routerLinkActive="active">Previous Medications</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/schedule" routerLinkActive="active">Schedule</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="cursor: pointer;" routerLinkActive="active" (click)="onLogout()">Logout</a>
-      </li>
-    </ul>
-  </div>
-  <div class="mx-3" *ngIf="isAuthenticated">
-    <form class="form-inline" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
-      <div style="display: inline-flex;">
-        <input class="form-control mx-auto" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term" required>
-        <button class="btn btn-outline-primary mx-3" type="submit" [disabled]="!searchForm.touched || !searchForm.valid">Search</button>
-      </div>
-    </form>
-  </div>
-</nav>
-<router-outlet></router-outlet>
+<body>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-between mb-5">
+    <a class="navbar-brand mx-3">Easy Med Tracker</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav" *ngIf="isAuthenticated">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/current-meds" routerLinkActive="active">Current Medications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/past-meds" routerLinkActive="active">Previous Medications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/schedule" routerLinkActive="active">Schedule</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer;" routerLinkActive="active" (click)="onLogout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+    <div class="mx-3" *ngIf="isAuthenticated">
+      <form class="form-inline" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
+        <div style="display: inline-flex;">
+          <input class="form-control mx-auto" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term" required>
+          <button class="btn btn-outline-primary mx-3" type="submit" [disabled]="!searchForm.touched || !searchForm.valid">Search</button>
+        </div>
+      </form>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+</body>

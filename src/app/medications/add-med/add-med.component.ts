@@ -6,6 +6,7 @@ import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 import { UserData } from 'src/app/shared/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-med',
@@ -86,11 +87,16 @@ export class AddMedComponent implements OnInit {
     console.log("newMed: ", newMed);
     this.http.saveNewToDatabase(newMed).subscribe(res => {
       if (res.success){
-        alert(`${medForm.value.name} saved!`);
+        Swal.fire({
+          title: `${medForm.value.name} saved!`
+        })
         medForm.reset();
         this.router.navigate(["../"], { relativeTo: this.route });
       } else {
-        alert('Error saving medication.');
+        Swal.fire({
+          title: 'Error saving medication.',
+          icon: 'error'
+        });
       }
     });
   }

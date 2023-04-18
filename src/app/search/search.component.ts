@@ -5,6 +5,7 @@ import { Medication } from '../medications/medications.model';
 import { MedicationsService } from '../medications/medications.service';
 import { HttpService } from '../shared/http/http.service';
 import { SearchService } from './search.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-search',
@@ -32,7 +33,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     medication.is_current = true;
     this.medicationsService.addMed(medication);
     this.http.saveNewToDatabase(medication);
-    alert(`${medication.name} saved to Current Medications.`);
+    Swal.fire(`${medication.name} saved to Current Medications.`);
     this.router.navigate(['/current-meds'], { relativeTo: this.route });
   }
 
@@ -40,7 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     medication.is_current = false;
     this.medicationsService.addMed(medication);
     this.http.saveNewToDatabase(medication);
-    alert(`${medication.name} saved to Previous Medications.`);
+    Swal.fire(`${medication.name} saved to Previous Medications.`);
     this.router.navigate(['/past-meds'], { relativeTo: this.route });
   }
 

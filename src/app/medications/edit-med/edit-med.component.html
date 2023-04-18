@@ -31,7 +31,7 @@
       class="form-control"
       formControlName="is_current">
         <option value="true" [selected]="this.selectedMedication.is_current">Yes</option>
-        <option value="false" [selected]="this.selectedMedication.is_current">No</option>
+        <option value="false" [selected]="!this.selectedMedication.is_current">No</option>
       </select>
     </div>
     <!-- Dosing Frequency -->

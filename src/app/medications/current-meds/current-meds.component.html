@@ -6,7 +6,7 @@
     <div class="col-md-4">
       <ol class="list-group" *ngIf="currentMedications; else elseBlock">
         <li class="list-group-item" *ngFor="let medication of currentMedications">
-          <a routerLink='/current-meds/{{medication.id}}' routerLinkActive="active">{{medication.name}} {{medication.dosage}}</a>
+          <a (click)="displayMed(medication.id!)" style="cursor: pointer;">{{medication.name}} {{medication.dosage}}</a>
         </li>
       </ol>
       <ng-template #elseBlock><h3>No current medications to display.</h3></ng-template>

@@ -20,10 +20,10 @@
     <div class="row">
       <p class="h6 col-md-2">Time of Day: </p>
       <ul>
-        <li *ngIf="selectedMedication.morning">Morning</li>
-        <li *ngIf="selectedMedication.midday">Mid-day</li>
-        <li *ngIf="selectedMedication.evening">Evening</li>
-        <li *ngIf="selectedMedication.night">Night</li>
+        <li *ngIf="selectedMedication.morning" class="mx-5">Morning</li>
+        <li *ngIf="selectedMedication.midday" class="mx-5">Mid-day</li>
+        <li *ngIf="selectedMedication.evening" class="mx-5">Evening</li>
+        <li *ngIf="selectedMedication.night" class="mx-5">Night</li>
       </ul>
     </div>
     <hr>
@@ -47,7 +47,7 @@
       <p class="h6 col-md-2">Reason for Stopping: </p><p class="col-md-6">{{ selectedMedication.reason_stopped }}</p>
     </div>
     <hr *ngIf="!selectedMedication.is_current">
-    <button class="btn btn-primary" routerLink="edit">Edit this medication</button>
+    <button class="btn btn-primary" (click)="editMed(selectedMedication.id!)">Edit this medication</button>
     <button class="btn btn-danger" (click)="deleteMed(selectedMedication)">Delete this medication</button>
     <button class="btn btn-warning" (click)="endMedication(selectedMedication)" *ngIf="this.selectedMedication.is_current">Move to Previous Medications</button>
   </div>

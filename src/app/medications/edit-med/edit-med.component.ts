@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/http/http.service';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-med',
@@ -63,6 +64,7 @@ export class EditMedComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.selectedMedication = this.medicationsService.selectedMed;
     this.frequencies = this.medicationsService.dosingFrequencies;
     this.weekdays = this.medicationsService.daysOfWeek;
     this.dosingTimes = this.medicationsService.timesOfDay;
@@ -108,27 +110,28 @@ export class EditMedComponent implements OnInit {
   // }
 
   onFormSubmit(medForm: FormGroup) {
-     let newMed = new Medication(
-      medForm.value.name,
-      medForm.value.is_current,
-      medForm.value.dosage,
-      medForm.value.frequency,
-      medForm.value.date,
-      medForm.value.day,
-      medForm.value.morning,
-      medForm.value.midday,
-      medForm.value.evening,
-      medForm.value.night,
-      medForm.value.benefits,
-      medForm.value.side_effects,
-      medForm.value.start_date,
-      medForm.value.stop_date,
-      medForm.value.reason_stopped
-      );
+      this.selectedMedication.name = medForm.value.name;
+      this.selectedMedication.is_current = medForm.value.is_current;
+      this.selectedMedication.dosage = medForm.value.dosage;
+      this.selectedMedication.frequency = medForm.value.frequency;
+      this.selectedMedication.date = medForm.value.date;
+      this.selectedMedication.day = medForm.value.day;
+      this.selectedMedication.morning = medForm.value.morning;
+      this.selectedMedication.midday = medForm.value.midday;
+      this.selectedMedication.evening = medForm.value.evening;
+      this.selectedMedication.night = medForm.value.night;
+      this.selectedMedication.benefits = medForm.value.benefits;
+      this.selectedMedication.side_effects = medForm.value.side_effects;
+      this.selectedMedication.start_date = medForm.value.start_date;
+      this.selectedMedication.stop_date = medForm.value.stop_date;
+      this.selectedMedication.reason_stopped = medForm.value.reason_stopped;
 
-    this.http.saveEditsToDatabase(newMed);
-    alert(`${this.editMedForm.value.name} updated!`);
-    this.router.navigate(["../"], { relativeTo: this.route });
+    this.http.saveEditsToDatabase(this.selectedMedication).subscribe(res => {
+      if (res.success) {
+        Swal.fire(`${this.editMedForm.value.name} updated!`);
+    }});
+
+    this.router.navigate(["../../"], { relativeTo: this.route });
   }
 
   // onCheck(medTime: string) {
