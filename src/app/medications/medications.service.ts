@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject } from "rxjs";
-
+import { ActivatedRoute } from '@angular/router';
 
 import { Medication } from './medications.model';
+import { HttpService } from '../shared/http/http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicationsService {
-  medListChanged = new Subject<Medication[]>();
+  currentMedListChanged = new Subject<Medication[]>();
+  pastMedListChanged = new Subject<Medication[]>();
   medSelected = new Subject<Medication>();
+  selectedMed!: Medication;
+
   dosingFrequencies = [
     '',
     'Monthly',
@@ -36,87 +40,52 @@ export class MedicationsService {
   ]
 
 
-  currentMeds: Medication[] = [ // array for holding current medications
-  ];
+  allMeds: Medication[] = [];
+  currentMeds: Medication[] = [];
+  pastMeds: Medication[] = [];
 
-  pastMeds: Medication[] = [// array for holding discontinued medications
-  ];
+  constructor(private http:HttpService, private route:ActivatedRoute) { }
 
-  constructor() { }
+  addMed (medication: Medication) {
+    // receive medication object from form and save to db
+    this.http.saveNewToDatabase(medication).subscribe(res => {
+      if (res.success) {
+        this.updateMedications();
+      }
+    });
+  }
 
-  addCurrentMed (medication: Medication) {
-    // receive medication object from form and add to currentMeds array
-    this.currentMeds.push(medication);
+  getMed (med_id: number) {
+        // Find correct medication in array and return values
+      let chosenMed: Medication | undefined = this.allMeds.find(({id}) => id === med_id);
+      console.log('chosenMed: ', chosenMed);
+      this.selectedMed = chosenMed!;
+      this.medSelected.next(chosenMed);
+  }
+
+  sortMedications(meds: Medication[]) {
+    this.currentMeds = [];
+    this.pastMeds = [];
+
+    for (let med of meds) {
+      if (med.is_current) {
+        this.currentMeds.push(med);
+        console.log("currentMeds: ", this.currentMeds);
+      } else {
+        this.pastMeds.push(med);
+        console.log("pastMeds: ", this.pastMeds);
+      }
+    }
     // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
+    this.currentMedListChanged.next(this.currentMeds.slice());
+    this.pastMedListChanged.next(this.pastMeds.slice());
   }
 
-  addPreviousMed (medication: Medication) {
-    // receive medication object from form and add to pastMeds array
-    this.pastMeds.push(medication);
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  deleteCurrentMed (index: number) {
-    // get array index from template and splice it from currentMeds array
-    this.currentMeds.splice(index, 1);
-    // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
-  }
-
-  deletePreviousMed (index: number) {
-    // get array index from template and splice it from pastMeds array
-    this.pastMeds.splice(index, 1);
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  editCurrentMed (index: number, medication: Medication) {
-    // get array index and set item to updated values
-    this.currentMeds[index] = medication;
-    // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
-  }
-
-  editPreviousMed (index: number, medication: Medication) {
-    // get array index and set item to updated values
-    this.pastMeds[index] = medication;
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-  }
-
-  getCurrentMed (index: number) {
-    // Find correct medication in array and return values
-    return this.currentMeds.slice()[index];
-  }
-
-  getPastMed (index: number) {
-    // Find correct medication in array and return values
-    return this.pastMeds.slice()[index];
-  }
-
-  moveToPastMeds (currentMedsIndex: number, medication: Medication) {
-    // get index in currentMeds array from template to splice object out
-    this.currentMeds.splice(currentMedsIndex, 1);
-
-    // push medication object onto pastMeds array
-    this.pastMeds.push(medication);
-
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
-    this.medListChanged.next(this.currentMeds.slice());
-  }
-
-  updateCurrentArray(meds: Medication[]) {
-    this.currentMeds = meds;
-    // send subscription update
-    this.medListChanged.next(this.currentMeds.slice());
-  }
-
-  updatePastArray(meds: Medication[]) {
-    this.pastMeds = meds;
-    // send subscription update
-    this.medListChanged.next(this.pastMeds.slice());
+  updateMedications() {
+    this.http.fetchMedsFromDatabase().subscribe(res => {
+      console.log("response: ", res);
+      this.allMeds = res.payload;
+      this.sortMedications(this.allMeds);
+    });
   }
 }

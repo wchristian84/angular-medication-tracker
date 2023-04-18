@@ -73,7 +73,8 @@ export class ScheduleComponent implements OnInit {
     // Get the last date of the current week
     this.weekEnds = endOfWeek(this.today);
     // Get current meds
-    this.current = this.medicationsService.currentMeds.slice();
+    this.current = this.medicationsService.currentMeds
+
     console.log('current', this.current);
 
     this.sortByFrequency();
@@ -144,19 +145,19 @@ export class ScheduleComponent implements OnInit {
   sortDaily() {
     if (this.dailyMeds.length > 0){
       for (let medication of this.dailyMeds) {
-        if (medication.timeOfDay?.Morning) {
+        if (medication.morning) {
           this.pushToAll('Morning', medication.name);
         }
 
-        if (medication.timeOfDay?.Midday) {
+        if (medication.midday) {
           this.pushToAll('Mid-day', medication.name);
         }
 
-        if (medication.timeOfDay?.Evening) {
+        if (medication.evening) {
           this.pushToAll('Evening', medication.name);
         }
 
-        if (medication.timeOfDay?.Night) {
+        if (medication.night) {
           this.pushToAll('Night', medication.name);
         }
       }
@@ -173,7 +174,7 @@ export class ScheduleComponent implements OnInit {
       for (let med of this.monthlyMeds) {
         for (let i = 0; i < 6; i++) {
           if (med.date == this.daysOfWeek[i].getDate()) {
-            if (med.timeOfDay?.Morning) {
+            if (med.morning) {
               switch(i) {
                 case 0:
                   this.sunday.morning.push(med.name);
@@ -198,7 +199,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.Midday) {
+            if (med.midday) {
               switch(i) {
                 case 0:
                   this.sunday.midday.push(med.name);
@@ -223,7 +224,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.Evening) {
+            if (med.evening) {
               switch(i) {
                 case 0:
                   this.sunday.evening.push(med.name);
@@ -248,7 +249,7 @@ export class ScheduleComponent implements OnInit {
                   break;
               }
             }
-            if (med.timeOfDay?.Night) {
+            if (med.night) {
               switch(i) {
                 case 0:
                   this.sunday.night.push(med.name);
@@ -282,7 +283,7 @@ export class ScheduleComponent implements OnInit {
   sortWeekly() {
     if (this.weeklyMeds.length > 0) {
       for (let medication of this.weeklyMeds) {
-        if (medication.timeOfDay?.Morning) {
+        if (medication.morning) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.morning.push(medication.name);
@@ -307,7 +308,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.Midday) {
+        if (medication.midday) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.midday.push(medication.name);
@@ -332,7 +333,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.Evening) {
+        if (medication.evening) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.evening.push(medication.name);
@@ -357,7 +358,7 @@ export class ScheduleComponent implements OnInit {
               break;
           }
         }
-        if (medication.timeOfDay?.Night) {
+        if (medication.night) {
           switch(medication.day) {
             case 'Sunday':
               this.sunday.night.push(medication.name);

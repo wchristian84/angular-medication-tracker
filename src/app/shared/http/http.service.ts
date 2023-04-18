@@ -1,60 +1,68 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-
+import { tap } from "rxjs/operators";
 import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
 import { UserData } from "../auth/auth.service";
+import { environment } from "src/environments/environment";
+
+export interface ResponseData{
+  success: boolean,
+  payload: Medication[]
+}
+
+export interface DeleteResponse{
+  success: boolean,
+  payload: any
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  firebaseDatabaseURL = 'https://angular-medication-tracker-default-rtdb.firebaseio.com/medications/';
+  databaseURL = `${environment.apiRoute}medications/`;
+  user: UserData = JSON.parse(localStorage.getItem('userData') as string);
 
-  constructor(private http: HttpClient, private medicationsService: MedicationsService) {}
+  constructor(private http: HttpClient) {}
 
-  fetchCurrentFromFirebase() {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    console.log("userData for fetch:", thisUser)
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/currentMeds.json`, {})
-    .subscribe(meds => {
-      if (meds === null) {
-        this.medicationsService.currentMeds = [];
-      }
-      else {
-        this.medicationsService.updateCurrentArray(meds);
-        console.log('response from DB: ', meds);
-      }
-    });
+  deleteFromDatabase(med_id: number) {
+    let body = {
+      med_id: med_id,
+      user_id: this.user.id
+    };
+    return this.http.delete<DeleteResponse>(`${this.databaseURL}delete`, {body: body});
   }
 
-  fetchPastFromFirebase() {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    return this.http.get<Medication[]>(`${this.firebaseDatabaseURL}${thisUser}/pastMeds.json`, {})
-      .subscribe(meds => {
-        if (meds === null) {
-          this.medicationsService.pastMeds = [];
-        }
-        else {
-          this.medicationsService.updatePastArray(meds);
-          console.log('response from DB: ', meds);
-        }
-      });
+  fetchMedsFromDatabase() {
+    return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: this.user.id}});
   }
 
-  saveMedsToFirebase(currentMeds: Medication[], pastMeds: Medication[]) {
-    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    const thisUser = userData.id;
-    const meds = {
-        "currentMeds": currentMeds,
-        "pastMeds": pastMeds,
-    }
+  saveEditsToDatabase(editedMed: Medication) {
+    let body = {
+      id: editedMed.id,
+      name: editedMed.name,
+      dosage: editedMed.dosage,
+      frequency: editedMed.frequency,
+      date: editedMed.date,
+      day: editedMed.day,
+      benefits: editedMed.benefits,
+      side_effects: editedMed.side_effects,
+      start_date: editedMed.start_date,
+      stop_date: editedMed.stop_date,
+      reason_stopped: editedMed.reason_stopped,
+      is_current: editedMed.is_current,
+      morning: editedMed.morning,
+      midday: editedMed.midday,
+      evening: editedMed.evening,
+      night: editedMed.night,
+      user_id: this.user.id
+    };
+    return this.http.patch<ResponseData>(`${this.databaseURL}edit/`, body);
+  }
 
-    this.http.patch(`${this.firebaseDatabaseURL}${thisUser}/`, meds).subscribe(res => {
-      console.log("Firebase DB Response:", res);
-    });
+  saveNewToDatabase(newMed: Medication) {
+    newMed.user_id = this.user.id;
+    return this.http.post<ResponseData>(`${this.databaseURL}new/`, newMed);
   }
 
 }

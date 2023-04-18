@@ -57,15 +57,41 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="addMedForm.value.frequency" [formGroup]="addMedForm.controls.timeOfDay">
+    <div *ngIf="addMedForm.value.frequency">
       Times of day taken:
-      <div class="form-group" *ngFor="let time of dosingTimes">
+      <!-- Morning -->
+      <div class="form-group">
         <input
-        type="checkbox"
-        value="{{ time }}"
-        id="{{ time }}"
-        formControlName="{{ time }}" />
-        <label for="{{ time }}">{{ time }}</label>
+          type="checkbox"
+          name="morning"
+          value="morning"
+          id="morning"
+          formControlName="morning">
+        <label for="morning">Morning</label>
+        <!-- Mid-day -->
+        <input
+          type="checkbox"
+          name="midday"
+          value="midday"
+          id="midday"
+          formControlName="midday">
+        <label for="midday">Mid-day</label>
+        <!-- Evening -->
+        <input
+          type="checkbox"
+          name="evening"
+          value="evening"
+          id="evening"
+          formControlName="evening">
+        <label for="evening">Evening</label>
+        <!-- Night -->
+        <input
+          type="checkbox"
+          name="night"
+          value="night"
+          id="night"
+          formControlName="night">
+        <label for="night">Night</label>
       </div>
     </div>
     <!-- Noted Health Benefits -->
@@ -85,9 +111,9 @@
       <textarea
         rows="5"
         name="side-effects"
-        id="sideEffects"
+        id="side_effects"
         class="form-control"
-        formControlName="sideEffects">
+        formControlName="side_effects">
       </textarea>
     </div>
     <!-- Start Date -->
@@ -96,9 +122,9 @@
       <input
       type="text"
       name="start-date"
-      id="startDate"
+      id="start_date"
       class="form-control"
-      formControlName="startDate"
+      formControlName="start_date"
       />
     </div>
     <!-- End Date -->
@@ -107,9 +133,9 @@
       <input
       type="text"
       name="stop-date"
-      id="stopDate"
+      id="stop_date"
       class="form-control"
-      formControlName="stopDate"
+      formControlName="stop_date"
       />
     </div>
     <!-- Reason Med Stopped -->
@@ -118,9 +144,9 @@
       <textarea
         rows="5"
         name="reason"
-        id="reasonStopped"
+        id="reason_stopped"
         class="form-control"
-        formControlName="reasonStopped">
+        formControlName="reason_stopped">
       </textarea>
     </div>
     <button class="btn btn-success my-2 mx-1" type="submit" [disabled]="!addMedForm.valid">Submit</button>

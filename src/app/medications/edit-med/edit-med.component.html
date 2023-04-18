@@ -22,6 +22,18 @@
       formControlName="dosage"
       />
     </div>
+    <!-- Set if Current -->
+    <div class="form-group">
+      <label for="is_current">Currently Taking?</label>
+      <select
+      name="is_current"
+      id="is_current"
+      class="form-control"
+      formControlName="is_current">
+        <option value="true" [selected]="this.selectedMedication.is_current">Yes</option>
+        <option value="false" [selected]="!this.selectedMedication.is_current">No</option>
+      </select>
+    </div>
     <!-- Dosing Frequency -->
     <div class="form-group">
       <label for="frequency">Dosing Frequency:</label>
@@ -57,17 +69,45 @@
       </select>
     </div>
     <!-- Time(s) of Day -->
-    <div *ngIf="editMedForm.value.frequency" [formGroup]="editMedForm.controls.timeOfDay">
+    <div *ngIf="editMedForm.value.frequency">
       <label>Times of day taken:</label>
-        <div class="form-group" *ngFor="let time of dosingTimes">
-          <input
+      <!-- Morning -->
+      <div class="form-group">
+        <input
           type="checkbox"
-          name="timeOfDay"
-          value="{{ time }}"
-          id="{{ time }}"
-          [checked]="time"
-          formControlName="{{ time }}">
-        <label for="{{ time }}">{{ time }}</label>
+          name="morning"
+          value="morning"
+          id="morning"
+          [checked]="this.selectedMedication.morning"
+          formControlName="morning">
+        <label for="morning">Morning</label>
+        <!-- Mid-day -->
+        <input
+          type="checkbox"
+          name="midday"
+          value="midday"
+          id="midday"
+          [checked]="this.selectedMedication.midday"
+          formControlName="midday">
+        <label for="midday">Mid-day</label>
+        <!-- Evening -->
+        <input
+          type="checkbox"
+          name="evening"
+          value="evening"
+          id="evening"
+          [checked]="this.selectedMedication.evening"
+          formControlName="evening">
+        <label for="evening">Evening</label>
+        <!-- Night -->
+        <input
+          type="checkbox"
+          name="night"
+          value="night"
+          id="night"
+          [checked]="this.selectedMedication.night"
+          formControlName="night">
+        <label for="night">Night</label>
       </div>
     </div>
     <!-- Noted Health Benefits -->
@@ -87,9 +127,9 @@
       <textarea
         rows="5"
         name="side-effects"
-        id="sideEffects"
+        id="side_effects"
         class="form-control"
-        formControlName="sideEffects">
+        formControlName="side_effects">
       </textarea>
     </div>
     <!-- Start Date -->
@@ -98,31 +138,31 @@
       <input
       type="text"
       name="start-date"
-      id="startDate"
+      id="start_date"
       class="form-control"
-      formControlName="startDate"
+      formControlName="start_date"
       />
     </div>
     <!-- End Date -->
-    <div class="form-group" *ngIf="!isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.is_current">
       <label for="stop-date">Date Stopped:</label>
       <input
       type="text"
       name="stop-date"
-      id="stopDate"
+      id="stop_date"
       class="form-control"
-      formControlName="stopDate"
+      formControlName="stop_date"
       />
     </div>
     <!-- Reason Med Stopped -->
-    <div class="form-group" *ngIf="!isCurrent">
+    <div class="form-group" *ngIf="!editMedForm.value.is_current">
       <label for="reason">Reason Stopped Taking:</label>
       <textarea
         rows="5"
         name="reason"
-        id="reasonStopped"
+        id="reason_stopped"
         class="form-control"
-        formControlName="reasonStopped">
+        formControlName="reason_stopped">
         >
       </textarea>
     </div>
