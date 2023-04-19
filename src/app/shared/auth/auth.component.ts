@@ -25,12 +25,12 @@ export class AuthComponent implements OnInit {
   onAuthFormSubmit(formObj: NgForm) {
     if (!formObj.valid) return;
 
-    const { email, password, first, last } = formObj.value;
+    const { email, password, firstName, lastName } = formObj.value;
 
     if (this.isLoginMode) {
         this.authObsrv = this.authService.signIn(email, password);
       } else {
-        this.authObsrv = this.authService.signUp(email, password, first, last);
+        this.authObsrv = this.authService.signUp(email, password, firstName, lastName);
       }
 
       this.authObsrv.subscribe(

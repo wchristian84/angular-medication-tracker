@@ -143,7 +143,7 @@ export class AuthService {
 
   signUp(email: string, password: string, firstName: string, lastName: string) {
     // Make post request to backend
-    return this.http.post<AuthResponseData>(`${environment.apiRoute}users/create/`, {
+    return this.http.post<AuthResponseData>(`${environment.apiRoute}users/create`, {
       // Pass registration data as object
       email,
       password,
