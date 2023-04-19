@@ -11,7 +11,7 @@ export class AuthInterceptorService implements HttpInterceptor{
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (req.url.includes('http://https://angular-med-tracker-backend.herokuapp.com/api/v1/'))
+    if (req.url.includes('https://angular-med-tracker-backend.herokuapp.com/api/v1/'))
     {
     return this.authService.currentUser.pipe(
       take(1),
