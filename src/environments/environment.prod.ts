@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiRoute: 'http://localhost:3000/api/v1/'
+  apiRoute: 'https://angular-med-tracker-backend.herokuapp.com/api/v1/'
 };
