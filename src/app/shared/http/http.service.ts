@@ -5,6 +5,7 @@ import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
 import { UserData } from "../auth/auth.service";
 import { environment } from "src/environments/environment";
+import { User } from "../auth/user.model";
 
 export interface ResponseData{
   success: boolean,
@@ -21,26 +22,55 @@ export interface DeleteResponse{
 })
 export class HttpService {
   databaseURL = `${environment.apiRoute}medications/`;
-  // user: UserData = JSON.parse(localStorage.getItem('userData') as string);
 
   constructor(private http: HttpClient) {}
 
   deleteFromDatabase(med_id: number) {
-    let user: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
     let body = {
       med_id: med_id,
-      user_id: user.id
+      user_id: loadedUser.id
     };
     return this.http.delete<DeleteResponse>(`${this.databaseURL}delete`, {body: body});
   }
 
   fetchMedsFromDatabase() {
-    let user: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: user.id}});
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
+    return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: loadedUser.id}});
   }
 
   saveEditsToDatabase(editedMed: Medication) {
-    let user: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
     let body = {
       id: editedMed.id,
       name: editedMed.name,
@@ -58,14 +88,24 @@ export class HttpService {
       midday: editedMed.midday,
       evening: editedMed.evening,
       night: editedMed.night,
-      user_id: user.id
+      user_id: loadedUser.id
     };
     return this.http.patch<ResponseData>(`${this.databaseURL}edit/`, body);
   }
 
   saveNewToDatabase(newMed: Medication) {
-    let user: UserData = JSON.parse(localStorage.getItem('userData') as string);
-    newMed.user_id = user.id;
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
+    newMed.user_id = loadedUser.id;
     return this.http.post<ResponseData>(`${this.databaseURL}new/`, newMed);
   }
 

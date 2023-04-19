@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
-  currentMedications: Medication[] = [];
+  currentMedications!: Medication[];
 
   constructor(private medicationsService: MedicationsService, private router: Router, private route: ActivatedRoute) { }
 
