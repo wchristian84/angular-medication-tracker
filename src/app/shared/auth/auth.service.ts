@@ -152,14 +152,17 @@ export class AuthService {
       returnSecureToken: true
     }).pipe(
       tap((response) => {
-        // Destructure to access all response values
-        const { success, payload } = response;
-        // Calculate time until expiration
-        let expiresAt = new Date(response.payload.user.token.revocation_date).getTime
-        let now = new Date(response.payload.user.token.created_at).getTime
-        let expiresIn = +expiresAt - +now
-        // Pass response values to handleAuth method
-        this.handleAuth(payload.user.email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn)
+        if (response.success){
+          this.signIn(email, password);
+        }
+        // // Destructure to access all response values
+        // const { success, payload } = response;
+        // // Calculate time until expiration
+        // let expiresAt = new Date(response.payload.user.token.revocation_date).getTime
+        // let now = new Date(response.payload.user.token.created_at).getTime
+        // let expiresIn = +expiresAt - +now
+        // // Pass response values to handleAuth method
+        // this.handleAuth(payload.user.email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn)
         }
       )
     );
