@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormControl, FormGroup, FormArray, FormBuilder } from "@angular/forms";
+import { Validators, FormControl, FormGroup, FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from 'src/app/shared/http/http.service';
+import Swal from 'sweetalert2';
 
 import { Medication } from '../medications.model';
+import { HttpService } from 'src/app/shared/http/http.service';
 import { MedicationsService } from '../medications.service';
-import { UserData } from 'src/app/shared/auth/auth.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-med',
@@ -53,15 +52,6 @@ export class AddMedComponent implements OnInit {
     this.weekdays = this.medicationsService.daysOfWeek;
     this.dosingTimes = this.medicationsService.timesOfDay;
   }
-
-  // createCheckbox(): FormGroup {
-  //   return this.formBuilder.group({
-  //     Morning: false,
-  //     Midday: false,
-  //     Evening: false,
-  //     Night: false
-  //   });
-  // }
 
   onFormSubmit(medForm: FormGroup) {
     let newMed = new Medication(
