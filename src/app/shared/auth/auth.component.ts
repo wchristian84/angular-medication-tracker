@@ -39,8 +39,10 @@ export class AuthComponent implements OnInit {
           if (this.errMessage) this.errMessage = null;
 
           // Reroute to /current-meds on success
-          this.medicationService.updateMedications();
-          this.router.navigate(['current-meds']);
+          if(res.success){
+            this.medicationService.updateMedications();
+            this.router.navigate(['current-meds']);
+          }
         },
         (err) => {
           console.error("Auth Response Error: ", err);
