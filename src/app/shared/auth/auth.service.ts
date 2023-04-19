@@ -97,6 +97,7 @@ export class AuthService {
     // Save user in local storage
     localStorage.setItem('userData', JSON.stringify(formUser));
     console.log("userData:", localStorage.getItem('userData'));
+    this.router.navigate(["current-meds"]);
   }
 
   signIn(email: string, password: string) {
