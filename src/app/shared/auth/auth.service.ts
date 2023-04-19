@@ -145,10 +145,10 @@ export class AuthService {
     // Make post request to backend
     return this.http.post<AuthResponseData>(`${environment.apiRoute}users/create`, {
       // Pass registration data as object
-      email,
-      password,
-      firstName,
-      lastName,
+      email: email,
+      password: password,
+      first_name: firstName,
+      last_name: lastName,
       returnSecureToken: true
     }).pipe(
       tap((response) => {
