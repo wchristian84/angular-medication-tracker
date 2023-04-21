@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { Medication } from './medications.model';
 import { MedicationsService } from './medications.service';
 import Swal from 'sweetalert2';
+import { User } from '../shared/auth/user.model';
+import { AuthService } from '../shared/auth/auth.service';
 
 @Component({
   selector: 'app-medications',
@@ -35,12 +37,15 @@ export class MedicationsComponent implements OnInit {
     user_id: 0
   };
   selectedTimes: string[] = [];
+  currentUserSub = new Subscription;
+  currentUser!: User;
 
   constructor(
     private medicationsService: MedicationsService,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpService) { }
+    private http: HttpService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -59,7 +64,9 @@ export class MedicationsComponent implements OnInit {
       this.getDosingTimes();
     });
 
-
+    this.currentUserSub = this.authService.currentUser.subscribe(res => {
+      if (res !=null) {this.currentUser = res};
+    })
 
   }
 
@@ -72,7 +79,7 @@ export class MedicationsComponent implements OnInit {
       if (result.isConfirmed) {
         this.http.deleteFromDatabase(med.id!).subscribe(res => {
           if (res.success) {
-            this.medicationsService.updateMedications();
+            this.medicationsService.updateMedications(this.currentUser.id);
             Swal.fire(
               'Deleted!',
               'Medication has been deleted.',
@@ -100,7 +107,7 @@ export class MedicationsComponent implements OnInit {
         stoppedMed.is_current = false;
         this.http.saveEditsToDatabase(stoppedMed).subscribe(res => {
           if (res.success) {
-            this.medicationsService.updateMedications();
+            this.medicationsService.updateMedications(this.currentUser.id);
             Swal.fire(
               'Success!',
               'Medication moved to Previous Medications.',

@@ -19,8 +19,9 @@ export class PastMedsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pastMedications = this.medicationsService.pastMeds;
     this.pastMedSubscription = this.medicationsService.pastMedListChanged.subscribe(res => {
-      console.log("past sub response: ", res);
-      this.pastMedications = res;
+      if (res != null){
+        this.pastMedications = res;
+      }
     })
   }
 

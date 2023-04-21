@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Medication } from '../medications.model';
@@ -14,7 +14,7 @@ import { User } from 'src/app/shared/auth/user.model';
 })
 export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
-  currentMedications!: Medication[];
+  currentMedications: Medication[] = [];
   currentUserSub = new Subscription;
   currentUser!: User;
 
@@ -23,15 +23,18 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUserSub = this.authService.currentUser.subscribe(response => {
       if (response != null){
-        console.log("emitted user: ", response);
+
         this.currentUser = response;
       }
-    })
+    });
+
     // this.currentMedications = this.medicationsService.currentMeds;
     this.currentMedSubscription = this.medicationsService.currentMedListChanged.subscribe(res => {
-      console.log("current sub response: ", res);
-      this.currentMedications = res;
+      if (res != null){
+        this.currentMedications = res;
+      }
     });
+
   }
 
   displayMed(id: number){
@@ -40,6 +43,7 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.currentUserSub.unsubscribe();
     this.currentMedSubscription.unsubscribe();
   }
 }

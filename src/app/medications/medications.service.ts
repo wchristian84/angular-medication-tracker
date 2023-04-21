@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { ActivatedRoute } from '@angular/router';
 
 import { Medication } from './medications.model';
@@ -9,8 +9,8 @@ import { HttpService } from '../shared/http/http.service';
   providedIn: 'root'
 })
 export class MedicationsService {
-  currentMedListChanged = new Subject<Medication[]>();
-  pastMedListChanged = new Subject<Medication[]>();
+  currentMedListChanged = new BehaviorSubject<Medication[] | null>(null);
+  pastMedListChanged = new BehaviorSubject<Medication[] | null>(null);
   medSelected = new Subject<Medication>();
   selectedMed!: Medication;
 
