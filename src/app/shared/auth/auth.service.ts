@@ -114,14 +114,10 @@ export class AuthService {
       tap((response) => {
         // Destructure to access all response values
         const { success, payload } = response;
-        console.log("response: ", response);
         // Calculate time until expiration
         let expiresAt = new Date(response.payload.user.token.expiry).getTime();
-        console.log("expiresAt: ", expiresAt);
         let now = new Date(response.payload.user.token.created_at).getTime();
-        console.log("now: ", now);
         let expiresIn = +expiresAt - +now;
-        console.log("expiresIn: ", expiresIn);
         // Pass response values to handleAuth method
         this.handleAuth(email, payload.user.id, payload.user.first_name, payload.user.last_name, payload.user.token.value, +expiresIn);
         }
