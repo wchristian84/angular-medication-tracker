@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { User } from 'src/app/shared/auth/user.model';
 
 @Component({
   selector: 'app-current-meds',
@@ -13,11 +15,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CurrentMedsComponent implements OnInit, OnDestroy {
   currentMedSubscription = new Subscription;
   currentMedications!: Medication[];
+  currentUserSub = new Subscription;
+  currentUser!: User;
 
-  constructor(private medicationsService: MedicationsService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private medicationsService: MedicationsService, private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.currentMedications = this.medicationsService.currentMeds;
+    this.currentUserSub = this.authService.currentUser.subscribe(response => {
+      if (response != null){
+        console.log("emitted user: ", response);
+        this.currentUser = response;
+      }
+    })
+    // this.currentMedications = this.medicationsService.currentMeds;
     this.currentMedSubscription = this.medicationsService.currentMedListChanged.subscribe(res => {
       console.log("current sub response: ", res);
       this.currentMedications = res;
