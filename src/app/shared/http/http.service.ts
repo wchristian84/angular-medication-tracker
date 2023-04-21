@@ -24,7 +24,7 @@ export interface DeleteResponse{
 export class HttpService {
   databaseURL = `${environment.apiRoute}medications/`;
   currentUserSub = new Subscription;
-  currentUser!: User;
+  currentUser: User = this.authService.;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -43,6 +43,7 @@ export class HttpService {
 
   fetchMedsFromDatabase() {
     this.currentUserSub = this.authService.currentUser.subscribe(res => {
+      console.log("fetch meds user: ", res);
       if (res != null) {
         this.currentUser = res;
       }
