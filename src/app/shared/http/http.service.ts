@@ -3,10 +3,9 @@ import { Injectable } from "@angular/core";
 import { tap } from "rxjs/operators";
 import { Medication } from "src/app/medications/medications.model";
 import { MedicationsService } from "src/app/medications/medications.service";
-import { AuthService, UserData } from "../auth/auth.service";
+import { UserData } from "../auth/auth.service";
 import { environment } from "src/environments/environment";
 import { User } from "../auth/user.model";
-import { Subscription } from "rxjs";
 
 export interface ResponseData{
   success: boolean,
@@ -23,40 +22,44 @@ export interface DeleteResponse{
 })
 export class HttpService {
   databaseURL = `${environment.apiRoute}medications/`;
-  currentUserSub = new Subscription;
-  currentUser!: User;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   deleteFromDatabase(med_id: number) {
-    this.currentUserSub = this.authService.currentUser.subscribe(res => {
-      if (res != null) {
-        this.currentUser = res;
-      }
-    });
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
     let body = {
       med_id: med_id,
-      user_id: this.currentUser.id
+      user_id: loadedUser.id
     };
     return this.http.delete<DeleteResponse>(`${this.databaseURL}delete`, {body: body});
   }
 
-  fetchMedsFromDatabase() {
-    this.currentUserSub = this.authService.currentUser.subscribe(res => {
-      console.log("fetch meds user: ", res);
-      if (res != null) {
-        this.currentUser = res;
-      }
-    });
-    return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: this.currentUser.id}});
+  fetchMedsFromDatabase(id: number) {
+    return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: id}});
   }
 
   saveEditsToDatabase(editedMed: Medication) {
-    this.currentUserSub = this.authService.currentUser.subscribe(res => {
-      if (res != null) {
-        this.currentUser = res;
-      }
-    });
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
     let body = {
       id: editedMed.id,
       name: editedMed.name,
@@ -74,18 +77,24 @@ export class HttpService {
       midday: editedMed.midday,
       evening: editedMed.evening,
       night: editedMed.night,
-      user_id: this.currentUser.id
+      user_id: loadedUser.id
     };
     return this.http.patch<ResponseData>(`${this.databaseURL}edit/`, body);
   }
 
   saveNewToDatabase(newMed: Medication) {
-    this.currentUserSub = this.authService.currentUser.subscribe(res => {
-      if (res != null) {
-        this.currentUser = res;
-      }
-    });
-    newMed.user_id = this.currentUser.id;
+    const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
+    const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
+    // If exists, set saved data to variables, add new token expiry
+    const loadedUser = new User (
+      email,
+      id,
+      firstName,
+      lastName,
+      _token,
+      new Date(_tokenExpirationDate)
+    );
+    newMed.user_id = loadedUser.id;
     return this.http.post<ResponseData>(`${this.databaseURL}new/`, newMed);
   }
 

@@ -39,7 +39,7 @@ export class AuthComponent implements OnInit {
 
           // Reroute to /current-meds on success
           if(res.success){
-            this.medicationService.updateMedications();
+            this.medicationService.updateMedications(res.payload.user.id);
             this.router.navigate(['current-meds']);
           }
         },

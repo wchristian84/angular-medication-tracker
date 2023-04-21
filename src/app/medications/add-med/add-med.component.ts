@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import { Medication } from '../medications.model';
 import { HttpService } from 'src/app/shared/http/http.service';
 import { MedicationsService } from '../medications.service';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/shared/auth/user.model';
 
 @Component({
   selector: 'app-add-med',
@@ -17,6 +20,8 @@ export class AddMedComponent implements OnInit {
   weekdays: string[] = [];
   dosingTimes: string[] = [];
   isCurrent!: boolean;
+  currentUserSub = new Subscription;
+  currentUser!: User;
 
   addMedForm = new FormGroup({
     name: new FormControl<string | null>(null, Validators.required),
@@ -40,7 +45,8 @@ export class AddMedComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpService,
     private formBuilder: FormBuilder,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     if (this.router.url.includes('current-meds')) {
@@ -48,6 +54,11 @@ export class AddMedComponent implements OnInit {
     } else {
       this.isCurrent = false;
     }
+    this.currentUserSub = this.authService.currentUser.subscribe(res => {
+      if (res != null){
+        this.currentUser = res;
+      }
+    })
     this.frequencies = this.medicationsService.dosingFrequencies;
     this.weekdays = this.medicationsService.daysOfWeek;
     this.dosingTimes = this.medicationsService.timesOfDay;
@@ -81,7 +92,7 @@ export class AddMedComponent implements OnInit {
           title: `${medForm.value.name} saved!`
         })
         medForm.reset();
-        this.medicationsService.updateMedications();
+        this.medicationsService.updateMedications(this.currentUser.id);
         this.router.navigate(["../"], { relativeTo: this.route });
       } else {
         Swal.fire({
