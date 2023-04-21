@@ -23,7 +23,6 @@ export class SearchService {
 
     // Submit query to API
     this.http.get(`https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name:"${queryTerm}"+openfda.generic_name:"${queryTerm}"`).subscribe((response) => {
-      console.log('response: ', response);
       // Empty array of any results of previous searches
       this.allResults = [];
       // Call function to temporarily store results for display
@@ -69,7 +68,6 @@ export class SearchService {
       );
       // Add to local array variable for results
       this.allResults.push(newProd);
-      console.log('newProd: ', newProd);
     });
     // Update subscriptions that array has changed after mapping
     this.resultsChanged.next(this.allResults.slice());

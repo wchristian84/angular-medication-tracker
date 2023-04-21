@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Medication } from '../medications.model';
 import { MedicationsService } from '../medications.service';
+import { User } from 'src/app/shared/auth/user.model';
+import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-past-meds',
@@ -13,11 +15,18 @@ import { MedicationsService } from '../medications.service';
 export class PastMedsComponent implements OnInit, OnDestroy {
   pastMedSubscription = new Subscription;
   pastMedications!: Medication[];
+  currentUserSub = new Subscription;
+  currentUser!: User;
 
-  constructor(private medicationsService: MedicationsService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private medicationsService: MedicationsService, private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.pastMedications = this.medicationsService.pastMeds;
+    this.currentUserSub = this.authService.currentUser.subscribe(res => {
+      if (res != null) {
+        this.currentUser = res;
+      }
+    })
+
     this.pastMedSubscription = this.medicationsService.pastMedListChanged.subscribe(res => {
       if (res != null){
         this.pastMedications = res;

@@ -57,7 +57,6 @@ export class AuthService {
       return;
     } else {
       const userData: UserData = JSON.parse(storedUser as string);
-      console.log(userData);
       const { email, id, firstName, lastName, _token, _tokenExpirationDate } = userData;
       // If exists, set saved data to variables, add new token expiry
       const loadedUser = new User (
@@ -78,7 +77,6 @@ export class AuthService {
   }
 
   automaticSignOut(expDuration: number) {
-    console.log('Expiration Duration: ', expDuration);
     // Set timeout duration and call logout function when expired
     this.tokenExpTimer = setTimeout(() => {
       this.signOut();

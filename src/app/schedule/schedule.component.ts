@@ -75,13 +75,8 @@ export class ScheduleComponent implements OnInit {
     // Get current meds
     this.current = this.medicationsService.currentMeds
 
-    console.log('current', this.current);
-
     this.sortByFrequency();
     this.sortDaily();
-    console.log('dailyMeds', this.dailyMeds);
-    console.log('weeklyMeds', this.weeklyMeds);
-    console.log('monthlyMeds', this.monthlyMeds);
     this.sortWeekly();
     this.sortMonthly(this.weekStart);
 
@@ -131,7 +126,6 @@ export class ScheduleComponent implements OnInit {
     for (let medication of this.current) {
       if (medication.frequency === 'Daily') {
         this.dailyMeds.push(medication);
-        console.log(this.dailyMeds);
       }
       else if (medication.frequency === 'Weekly') {
         this.weeklyMeds.push(medication);

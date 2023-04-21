@@ -54,12 +54,10 @@ export class MedicationsComponent implements OnInit {
 
     this.route.params.subscribe((params: Params) => {
       this.idx = +params['id'];
-      console.log('idx: ', this.idx);
       this.medicationsService.getMed(this.idx);
     });
 
     this.selectedMedSubscription = this.medicationsService.medSelected.subscribe(res => {
-      console.log("selected med sub: ", res);
       this.selectedMedication = res;
       this.getDosingTimes();
     });

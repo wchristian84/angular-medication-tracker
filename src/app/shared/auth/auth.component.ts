@@ -34,7 +34,6 @@ export class AuthComponent implements OnInit {
 
       this.authObsrv.subscribe(
         (res) => {
-          console.log('Auth Response Success: ', res);
           if (this.errMessage) this.errMessage = null;
 
           // Reroute to /current-meds on success

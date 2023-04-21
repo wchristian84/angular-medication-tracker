@@ -4,7 +4,7 @@
 <div class='container'>
   <div class="row">
     <div class="col-md-4">
-      <ol class="list-group" *ngIf="currentMedications; else elseBlock">
+      <ol class="list-group" *ngIf="currentMedications.length > 0; else elseBlock">
         <li class="list-group-item" *ngFor="let medication of currentMedications">
           <a (click)="displayMed(medication.id!)" style="cursor: pointer;">{{medication.name}} {{medication.dosage}}</a>
         </li>

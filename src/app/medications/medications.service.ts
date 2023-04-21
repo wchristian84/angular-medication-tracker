@@ -58,7 +58,6 @@ export class MedicationsService {
   getMed (med_id: number) {
         // Find correct medication in array and return values
       let chosenMed: Medication | undefined = this.allMeds.find(({id}) => id === med_id);
-      console.log('chosenMed: ', chosenMed);
       this.selectedMed = chosenMed!;
       this.medSelected.next(chosenMed);
   }
@@ -70,10 +69,8 @@ export class MedicationsService {
     for (let med of meds) {
       if (med.is_current) {
         this.currentMeds.push(med);
-        console.log("currentMeds: ", this.currentMeds);
       } else {
         this.pastMeds.push(med);
-        console.log("pastMeds: ", this.pastMeds);
       }
     }
     // send subscription update
@@ -83,7 +80,6 @@ export class MedicationsService {
 
   updateMedications(id: number) {
     this.http.fetchMedsFromDatabase(id).subscribe(res => {
-      console.log("response: ", res);
       this.allMeds = res.payload;
       this.sortMedications(this.allMeds);
     });

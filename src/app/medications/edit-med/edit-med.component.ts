@@ -75,7 +75,6 @@ export class EditMedComponent implements OnInit {
       if (getMed != undefined) {
         this.selectedMedication = getMed
       }
-    console.log(this.selectedMedication);
 
     this.editMedForm.patchValue({
       'name': this.selectedMedication.name,
@@ -94,8 +93,6 @@ export class EditMedComponent implements OnInit {
       'stop_date': this.selectedMedication.stop_date!,
       'reason_stopped': this.selectedMedication.reason_stopped!
       });
-
-      console.log(this.editMedForm.value);
     });
   }
 

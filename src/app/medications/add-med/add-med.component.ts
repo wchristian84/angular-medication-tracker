@@ -85,7 +85,6 @@ export class AddMedComponent implements OnInit {
     if (this.isCurrent) {
       newMed.is_current = true;
     }
-    console.log("newMed: ", newMed);
     this.http.saveNewToDatabase(newMed).subscribe(res => {
       if (res.success){
         Swal.fire({
