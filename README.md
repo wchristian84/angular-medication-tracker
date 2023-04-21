@@ -1,27 +1,17 @@
 # AngularMedicationTracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.18.
+##Hosted Version
 
-## Development server
+A live version of this app is accessible at [here](https://angular-med-tracker.web.app/). Simply create an account and you'll have access to all features and functionality.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+##About
 
-## Code scaffolding
+A simple app for users to keep track of what medications they are currently taking and what ones they've taken in the past. My wife has an autoimmune disorder, so she's been on lots of medications over the years, making it difficult to remember what she's been on and when; this web app was designed with people in similar situations (particularly those with chronic illnesses) have an easier time documenting their medication history.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+##Searching
 
-## Build
+The app contains a search function that queries the FDA's medication database API. You can directly add medications from the results page, with names and dosages pre-filled for you.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+##Schedule
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The schedule component displays what days and times you need to take each of your current medications for which you've supplied date/time information. Previously taken medications will never show up on the schedule.
