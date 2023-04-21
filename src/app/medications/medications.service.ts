@@ -46,14 +46,14 @@ export class MedicationsService {
 
   constructor(private http:HttpService, private route:ActivatedRoute) { }
 
-  addMed (medication: Medication) {
-    // receive medication object from form and save to db
-    this.http.saveNewToDatabase(medication).subscribe(res => {
-      if (res.success) {
-        this.updateMedications();
-      }
-    });
-  }
+  // addMed (medication: Medication) {
+  //   // receive medication object from form and save to db
+  //   this.http.saveNewToDatabase(medication).subscribe(res => {
+  //     if (res.success) {
+  //       this.updateMedications();
+  //     }
+  //   });
+  // }
 
   getMed (med_id: number) {
         // Find correct medication in array and return values
@@ -81,8 +81,8 @@ export class MedicationsService {
     this.pastMedListChanged.next(this.pastMeds.slice());
   }
 
-  updateMedications() {
-    this.http.fetchMedsFromDatabase().subscribe(res => {
+  updateMedications(id: number) {
+    this.http.fetchMedsFromDatabase(id).subscribe(res => {
       console.log("response: ", res);
       this.allMeds = res.payload;
       this.sortMedications(this.allMeds);
