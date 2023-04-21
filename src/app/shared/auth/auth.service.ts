@@ -96,7 +96,7 @@ export class AuthService {
     this.currentUser.next(formUser);
     // Save user in local storage
     localStorage.setItem('userData', JSON.stringify(formUser));
-    console.log("userData:", JSON.parse(localStorage.getItem('userData') as string));
+    this.medicationService.updateMedications(formUser.id);
     this.router.navigate(["current-meds"]);
   }
 

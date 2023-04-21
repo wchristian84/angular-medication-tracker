@@ -45,6 +45,7 @@ export class HttpService {
   }
 
   fetchMedsFromDatabase(id: number) {
+    console.log("fetch id: ", id);
     return this.http.get<ResponseData>(`${this.databaseURL}meds`, {params: {user_id: id}});
   }
 
