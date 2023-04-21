@@ -24,7 +24,7 @@ export interface DeleteResponse{
 export class HttpService {
   databaseURL = `${environment.apiRoute}medications/`;
   currentUserSub = new Subscription;
-  currentUser: User = this.authService.;
+  currentUser!: User;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
