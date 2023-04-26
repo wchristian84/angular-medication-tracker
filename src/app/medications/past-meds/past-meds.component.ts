@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/shared/auth/auth.service';
 })
 export class PastMedsComponent implements OnInit, OnDestroy {
   pastMedSubscription = new Subscription;
-  pastMedications!: Medication[];
+  pastMedications: Medication[] = [];
   currentUserSub = new Subscription;
   currentUser!: User;
 

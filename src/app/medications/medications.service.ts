@@ -66,13 +66,20 @@ export class MedicationsService {
     this.currentMeds = [];
     this.pastMeds = [];
 
-    for (let med of meds) {
-      if (med.is_current) {
-        this.currentMeds.push(med);
-      } else {
-        this.pastMeds.push(med);
+    // if (meds.is_current) {
+    //   if (meds[0].is_current) {
+    //     this.currentMeds.push(meds[0]);
+    //   } else {
+    //     this.pastMeds.push(meds[0]);
+    //   }
+    // }
+      for (let med of meds) {
+        if (med.is_current) {
+          this.currentMeds.push(med);
+        } else {
+          this.pastMeds.push(med);
+        }
       }
-    }
     // send subscription update
     this.currentMedListChanged.next(this.currentMeds.slice());
     this.pastMedListChanged.next(this.pastMeds.slice());
