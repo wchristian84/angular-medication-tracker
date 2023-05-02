@@ -11,13 +11,21 @@
           <a class="nav-link" routerLink="/past-meds" routerLinkActive="active">Previous Medications</a>
           <a class="nav-link" routerLink="/schedule" routerLinkActive="active">Schedule</a>
           <a class="nav-link" style="cursor: pointer;" routerLinkActive="active" (click)="onLogout()">Logout</a>
-          <form class="form-inline" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
+          <form class="form-inline d-block d-md-none" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
             <div style="display: inline-flex;">
               <input class="form-control mx-auto" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term" required>
               <button class="btn btn-outline-primary mx-3" type="submit" [disabled]="!searchForm.touched || !searchForm.valid">Search</button>
             </div>
           </form>
         </div>
+      </div>
+      <div class="mx-3 d-none d-lg-inline-block" *ngIf="isAuthenticated">
+        <form class="form-inline" (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm">
+          <div style="display: inline-flex;">
+            <input class="form-control mx-auto" type="search" placeholder="Find a Medication" aria-label="Search" ngModel name="term" required>
+            <button class="btn btn-outline-primary mx-3" type="submit" [disabled]="!searchForm.touched || !searchForm.valid">Search</button>
+          </div>
+        </form>
       </div>
     </div>
   </nav>
