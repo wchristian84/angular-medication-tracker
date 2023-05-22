@@ -23,7 +23,6 @@ export class CurrentMedsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUserSub = this.authService.currentUser.subscribe(response => {
       if (response != null){
-
         this.currentUser = response;
       }
     });
